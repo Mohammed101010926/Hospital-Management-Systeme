@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Doctors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>Doctors</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search doctors...">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Doctors</h3>
+                        <button class="btn-primary" id="addDoctorBtn">
+                            <i class="fas fa-plus"></i> Add Doctor
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="doctorsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Specialization</th>
+                                        <th>Department</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be loaded via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Doctor Modal -->
+    <div class="modal" id="doctorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Doctor</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="doctorForm">
+                    <input type="hidden" id="doctorId">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialization">Specialization</label>
+                        <input type="text" id="specialization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveDoctor">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this doctor?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load doctors data
+            loadDoctors();
+            
+            // Modal functionality
+            const modal = document.getElementById('doctorModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const addBtn = document.getElementById('addDoctorBtn');
+            const saveBtn = document.getElementById('saveDoctor');
+            const modalTitle = document.getElementById('modalTitle');
+            const doctorForm = document.getElementById('doctorForm');
+            
+            // Open modal for adding new doctor
+            addBtn.addEventListener('click', function() {
+                doctorForm.reset();
+                document.getElementById('doctorId').value = '';
+                modalTitle.textContent = 'Add New Doctor';
+                modal.classList.add('active');
+            });
+            
+            // Close modal when clicking X or cancel
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    modal.classList.remove('active');
+                    confirmModal.classList.remove('active');
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+                if (e.target === confirmModal) {
+                    confirmModal.classList.remove('active');
+                }
+            });
+            
+            // Save doctor
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would make an API call here
+                alert('Doctor saved successfully!');
+                modal.classList.remove('active');
+                loadDoctors(); // Refresh the table
+            });
+            
+            // Delete confirmation
+            let doctorToDelete = null;
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-doctor')) {
+                    e.preventDefault();
+                    doctorToDelete = e.target.dataset.id;
+                    confirmModal.classList.add('active');
+                }
+            });
+            
+            document.getElementById('confirmDelete').addEventListener('click', function() {
+                // In a real app, you would make an API call here
+                alert('Doctor deleted successfully!');
+                confirmModal.classList.remove('active');
+                loadDoctors(); // Refresh the table
+            });
+        });
+        
+        function loadDoctors() {
+            // Simulate loading doctors from API
+            const doctors = [
+                { id: 1, firstName: 'Robert', lastName: 'Johnson', specialization: 'Cardiology', department: 'Cardiology', phone: '555-9012', email: 'r.johnson@hospital.com' },
+                { id: 2, firstName: 'Emily', lastName: 'Williams', specialization: 'Pediatrics', department: 'Pediatrics', phone: '555-3456', email: 'e.williams@hospital.com' },
+                { id: 3, firstName: 'Michael', lastName: 'Brown', specialization: 'Neurology', department: 'Neurology', phone: '555-7890', email: 'm.brown@hospital.com' },
+                { id: 4, firstName: 'Sarah', lastName: 'Lee', specialization: 'Orthopedics', department: 'Orthopedics', phone: '555-1234', email: 's.lee@hospital.com' }
+            ];
+            
+            const tableBody = document.querySelector('#doctorsTable tbody');
+            tableBody.innerHTML = '';
+            
+            doctors.forEach(doctor => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${doctor.id}</td>
+                    <td>Dr. ${doctor.firstName} ${doctor.lastName}</td>
+                    <td>${doctor.specialization}</td>
+                    <td>${doctor.department}</td>
+                    <td>${doctor.phone}</td>
+                    <td>${doctor.email}</td>
+                    <td>
+                        <button class="action-btn edit edit-doctor" data-id="${doctor.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete delete-doctor" data-id="${doctor.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-doctor').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const doctorId = this.dataset.id;
+                    // In a real app, you would fetch the doctor data from the API
+                    const doctor = doctors.find(d => d.id == doctorId);
+                    
+                    if (doctor) {
+                        document.getElementById('doctorId').value = doctor.id;
+                        document.getElementById('firstName').value = doctor.firstName;
+                        document.getElementById('lastName').value = doctor.lastName;
+                        document.getElementById('specialization').value = doctor.specialization;
+                        document.getElementById('department').value = doctor.department;
+                        document.getElementById('phone').value = doctor.phone;
+                        document.getElementById('email').value = doctor.email;
+                        
+                        document.getElementById('modalTitle').textContent = 'Edit Doctor';
+                        document.getElementById('doctorModal').classList.add('active');
+                    }
+                });
+            });
+            
+        }
+    </script>
+</body>
+</html>

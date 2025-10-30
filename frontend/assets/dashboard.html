@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="login.html" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="stats-cards">
+                    <div class="stats-card fade-in">
+                        <div class="stats-icon">
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Total Patients</h3>
+                            <p id="totalPatients">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="patients.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Total Doctors</h3>
+                            <p id="totalDoctors">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="doctors.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.4s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Today's Appointments</h3>
+                            <p id="todayAppointments">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="appointments.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.6s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Pharmacy</h3>
+                            <p id="Pharmacy">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="pharmacy.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Pending Appointments</h3>
+                            <p id="pendingAppointments">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="appointments.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Medical Records</h3>
+                            <p id="medical-records">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="medical-records.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="stats-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stats-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Settings</h3>
+                            <p id="settings">0</p>
+                        </div>
+                        <div class="stats-footer">
+                            <a href="settings.html">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-row">
+                    <div class="content-col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Recent Appointments</h3>
+                                <a href="appointments.html" class="btn-link">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="recentAppointmentsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Patient</th>
+                                                <th>Doctor</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Recent Patients</h3>
+                                <a href="patients.html" class="btn-link">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="recentPatientsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Gender</th>
+                                                <th>Age</th>
+                                                <th>Phone</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-row">
+                    <div class="content-col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Appointments by Department</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="appointmentsChart" class="chart-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Quick Actions</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="quick-actions">
+                                    <a href="patients.html" class="quick-action">
+                                        <i class="fas fa-user-plus"></i>
+                                        <span>Add Patient</span>
+                                    </a>
+                                    <a href="appointments.html" class="quick-action">
+                                        <i class="fas fa-calendar-plus"></i>
+                                        <span>New Appointment</span>
+                                    </a>
+                                    <a href="#" class="quick-action">
+                                        <i class="fas fa-file-prescription"></i>
+                                        <span>Create Prescription</span>
+                                    </a>
+                                    <a href="#" class="quick-action">
+                                        <i class="fas fa-flask"></i>
+                                        <span>Lab Test</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>
+

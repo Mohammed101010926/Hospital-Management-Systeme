@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Pharmacy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>Pharmacy Management</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search medicines..." id="medicineSearch">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>Pharmacist</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="pharmacy-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="inventory">Inventory</button>
+                        <button class="tab-btn" data-tab="prescriptions">Prescriptions</button>
+                        <button class="tab-btn" data-tab="suppliers">Suppliers</button>
+                    </div>
+                    
+                    <!-- Inventory Tab -->
+                    <div class="tab-content active" id="inventory-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Medicine Inventory</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary" id="exportInventory">
+                                        <i class="fas fa-file-export"></i> Export
+                                    </button>
+                                    <button class="btn-primary" id="addMedicine">
+                                        <i class="fas fa-plus"></i> Add Medicine
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="inventoryTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Medicine Name</th>
+                                                <th>Category</th>
+                                                <th>Batch No.</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Expiry Date</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Prescriptions Tab -->
+                    <div class="tab-content" id="prescriptions-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Patient Prescriptions</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary" id="printPrescription">
+                                        <i class="fas fa-print"></i> Print
+                                    </button>
+                                    <button class="btn-primary" id="newPrescription">
+                                        <i class="fas fa-plus"></i> New Prescription
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="prescriptionsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Prescription ID</th>
+                                                <th>Patient Name</th>
+                                                <th>Doctor</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Total</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Suppliers Tab -->
+                    <div class="tab-content" id="suppliers-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Medicine Suppliers</h3>
+                                <div class="header-actions">
+                                    <button class="btn-primary" id="addSupplier">
+                                        <i class="fas fa-plus"></i> Add Supplier
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="suppliersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Supplier ID</th>
+                                                <th>Supplier Name</th>
+                                                <th>Contact Person</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Medicines Supplied</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Medicine Modal -->
+    <div class="modal" id="medicineModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="medicineModalTitle">Add New Medicine</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="medicineForm">
+                    <input type="hidden" id="medicineId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicineName">Medicine Name*</label>
+                            <input type="text" id="medicineName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="genericName">Generic Name</label>
+                            <input type="text" id="genericName">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicineCategory">Category*</label>
+                            <select id="medicineCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Antibiotic">Antibiotic</option>
+                                <option value="Analgesic">Analgesic</option>
+                                <option value="Antihistamine">Antihistamine</option>
+                                <option value="Antacid">Antacid</option>
+                                <option value="Antidepressant">Antidepressant</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="batchNumber">Batch Number*</label>
+                            <input type="text" id="batchNumber" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Quantity*</label>
+                            <input type="number" id="quantity" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit">Unit*</label>
+                            <select id="unit" required>
+                                <option value="">Select Unit</option>
+                                <option value="Tablets">Tablets</option>
+                                <option value="Capsules">Capsules</option>
+                                <option value="Bottles">Bottles</option>
+                                <option value="Tubes">Tubes</option>
+                                <option value="Pieces">Pieces</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Price (per unit)*</label>
+                            <input type="number" id="price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date*</label>
+                            <input type="date" id="expiryDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="manufacturer">Manufacturer</label>
+                        <input type="text" id="manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label for="medicineDescription">Description</label>
+                        <textarea id="medicineDescription" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveMedicine">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prescription Modal -->
+    <div class="modal" id="prescriptionModal">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="prescriptionModalTitle">New Prescription</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="prescription-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prescriptionPatient">Patient*</label>
+                            <select id="prescriptionPatient" required>
+                                <option value="">Select Patient</option>
+                                <option value="1">John Doe (ID: 1)</option>
+                                <option value="2">Jane Smith (ID: 2)</option>
+                                <option value="3">Michael Brown (ID: 3)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prescriptionDoctor">Doctor*</label>
+                            <select id="prescriptionDoctor" required>
+                                <option value="">Select Doctor</option>
+                                <option value="1">Dr. Robert Johnson</option>
+                                <option value="2">Dr. Emily Williams</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prescriptionDate">Date*</label>
+                            <input type="date" id="prescriptionDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prescriptionStatus">Status*</label>
+                            <select id="prescriptionStatus" required>
+                                <option value="Pending">Pending</option>
+                                <option value="Dispensed">Dispensed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="prescription-items">
+                        <h4>Prescribed Medicines</h4>
+                        <div class="table-responsive">
+                            <table id="prescriptionItemsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Dosage</th>
+                                        <th>Duration</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Items will be added dynamically -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-right"><strong>Subtotal:</strong></td>
+                                        <td id="prescriptionSubtotal">$0.00</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <button class="btn-secondary" id="addPrescriptionItem">
+                            <i class="fas fa-plus"></i> Add Medicine
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prescriptionNotes">Notes</label>
+                        <textarea id="prescriptionNotes" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="savePrescription">Save Prescription</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Prescription Item Modal -->
+    <div class="modal" id="prescriptionItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Medicine to Prescription</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="itemMedicine">Medicine*</label>
+                    <select id="itemMedicine" required>
+                        <option value="">Select Medicine</option>
+                        <option value="1">Paracetamol (500mg Tablet)</option>
+                        <option value="2">Ibuprofen (200mg Tablet)</option>
+                        <option value="3">Amoxicillin (250mg Capsule)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemDosage">Dosage*</label>
+                        <input type="text" id="itemDosage" placeholder="e.g., 1 tablet twice daily" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDuration">Duration*</label>
+                        <input type="text" id="itemDuration" placeholder="e.g., 7 days" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemQuantity">Quantity*</label>
+                        <input type="number" id="itemQuantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Price per unit*</label>
+                        <input type="number" id="itemPrice" min="0" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="addItemToPrescription">Add to Prescription</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to delete this item?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-danger" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tabs
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Load initial data
+            loadInventory();
+            loadPrescriptions();
+            loadSuppliers();
+            
+            // Set up modals
+            setupMedicineModal();
+            setupPrescriptionModal();
+            setupConfirmationModal();
+            
+            // Search functionality
+            document.getElementById('medicineSearch').addEventListener('input', function() {
+                filterTable('inventoryTable', this.value.toLowerCase());
+            });
+        });
+        
+        function loadInventory() {
+            // Simulate loading inventory from API
+            const inventory = [
+                { id: 1, name: 'Paracetamol', generic: 'Acetaminophen', category: 'Analgesic', 
+                  batch: 'BATCH001', quantity: 150, unit: 'Tablets', price: 0.25, 
+                  expiry: '2024-12-31', manufacturer: 'ABC Pharma', status: 'In Stock' },
+                { id: 2, name: 'Ibuprofen', generic: 'Ibuprofen', category: 'Analgesic', 
+                  batch: 'BATCH002', quantity: 85, unit: 'Tablets', price: 0.35, 
+                  expiry: '2024-10-15', manufacturer: 'XYZ Pharma', status: 'In Stock' },
+                { id: 3, name: 'Amoxicillin', generic: 'Amoxicillin', category: 'Antibiotic', 
+                  batch: 'BATCH003', quantity: 42, unit: 'Capsules', price: 1.20, 
+                  expiry: '2023-11-30', manufacturer: 'MediCorp', status: 'Low Stock' },
+                { id: 4, name: 'Cetirizine', generic: 'Cetirizine', category: 'Antihistamine', 
+                  batch: 'BATCH004', quantity: 0, unit: 'Tablets', price: 0.50, 
+                  expiry: '2025-03-15', manufacturer: 'HealthPlus', status: 'Out of Stock' }
+            ];
+            
+            const tableBody = document.querySelector('#inventoryTable tbody');
+            tableBody.innerHTML = '';
+            
+            inventory.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name} <small class="text-muted">${item.generic}</small></td>
+                    <td>${item.category}</td>
+                    <td>${item.batch}</td>
+                    <td>${item.quantity} ${item.unit}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>${formatDate(item.expiry)}</td>
+                    <td><span class="status-badge status-${getStatusClass(item.status)}">${item.status}</span></td>
+                    <td>
+                        <button class="action-btn view view-medicine" data-id="${item.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit edit-medicine" data-id="${item.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete delete-medicine" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function loadPrescriptions() {
+            // Simulate loading prescriptions from API
+            const prescriptions = [
+                { id: 'RX1001', patient: 'John Doe', doctor: 'Dr. Robert Johnson', 
+                  date: '2023-06-15', status: 'Dispensed', total: 12.50 },
+                { id: 'RX1002', patient: 'Jane Smith', doctor: 'Dr. Emily Williams', 
+                  date: '2023-06-16', status: 'Pending', total: 8.75 },
+                { id: 'RX1003', patient: 'Michael Brown', doctor: 'Dr. Robert Johnson', 
+                  date: '2023-06-17', status: 'Cancelled', total: 15.20 }
+            ];
+            
+            const tableBody = document.querySelector('#prescriptionsTable tbody');
+            tableBody.innerHTML = '';
+            
+            prescriptions.forEach(pres => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pres.id}</td>
+                    <td>${pres.patient}</td>
+                    <td>${pres.doctor}</td>
+                    <td>${formatDate(pres.date)}</td>
+                    <td><span class="status-badge status-${pres.status.toLowerCase()}">${pres.status}</span></td>
+                    <td>$${pres.total.toFixed(2)}</td>
+                    <td>
+                        <button class="action-btn view view-prescription" data-id="${pres.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="action-btn print print-prescription" data-id="${pres.id}">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function loadSuppliers() {
+            // Simulate loading suppliers from API
+            const suppliers = [
+                { id: 'SUP001', name: 'ABC Pharmaceuticals', contact: 'John Smith', 
+                  phone: '555-1234', email: 'john@abcpharma.com', medicines: 45 },
+                { id: 'SUP002', name: 'MediCorp Solutions', contact: 'Sarah Johnson', 
+                  phone: '555-5678', email: 'sarah@medicorp.com', medicines: 32 },
+                { id: 'SUP003', name: 'HealthPlus Distributors', contact: 'Michael Brown', 
+                  phone: '555-9012', email: 'michael@healthplus.com', medicines: 28 }
+            ];
+            
+            const tableBody = document.querySelector('#suppliersTable tbody');
+            tableBody.innerHTML = '';
+            
+            suppliers.forEach(supplier => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${supplier.id}</td>
+                    <td>${supplier.name}</td>
+                    <td>${supplier.contact}</td>
+                    <td>${supplier.phone}</td>
+                    <td>${supplier.email}</td>
+                    <td>${supplier.medicines} medicines</td>
+                    <td>
+                        <button class="action-btn view view-supplier" data-id="${supplier.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit edit-supplier" data-id="${supplier.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function setupMedicineModal() {
+            const modal = document.getElementById('medicineModal');
+            const addBtn = document.getElementById('addMedicine');
+            const saveBtn = document.getElementById('saveMedicine');
+            
+            addBtn.addEventListener('click', function() {
+                document.getElementById('medicineForm').reset();
+                document.getElementById('medicineId').value = '';
+                document.getElementById('medicineModalTitle').textContent = 'Add New Medicine';
+                modal.classList.add('active');
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would validate and save the medicine
+                alert('Medicine saved successfully!');
+                modal.classList.remove('active');
+                loadInventory();
+            });
+            
+            // Edit buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('edit-medicine')) {
+                    const medicineId = e.target.dataset.id;
+                    // In a real app, you would fetch the medicine data
+                    document.getElementById('medicineId').value = medicineId;
+                    document.getElementById('medicineName').value = 'Paracetamol';
+                    document.getElementById('genericName').value = 'Acetaminophen';
+                    // ... populate other fields ...
+                    
+                    document.getElementById('medicineModalTitle').textContent = 'Edit Medicine';
+                    modal.classList.add('active');
+                }
+            });
+        }
+        
+        function setupPrescriptionModal() {
+            const modal = document.getElementById('prescriptionModal');
+            const itemModal = document.getElementById('prescriptionItemModal');
+            const newBtn = document.getElementById('newPrescription');
+            const saveBtn = document.getElementById('savePrescription');
+            const addItemBtn = document.getElementById('addPrescriptionItem');
+            
+            newBtn.addEventListener('click', function() {
+                document.querySelector('#prescriptionModal form').reset();
+                document.querySelector('#prescriptionItemsTable tbody').innerHTML = '';
+                document.getElementById('prescriptionSubtotal').textContent = '$0.00';
+                document.getElementById('prescriptionModalTitle').textContent = 'New Prescription';
+                modal.classList.add('active');
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would save the prescription
+                alert('Prescription saved successfully!');
+                modal.classList.remove('active');
+                loadPrescriptions();
+            });
+            
+            addItemBtn.addEventListener('click', function() {
+                itemModal.classList.add('active');
+            });
+            
+            document.getElementById('addItemToPrescription').addEventListener('click', function() {
+                // Add item to prescription table
+                const item = {
+                    medicine: document.getElementById('itemMedicine').value,
+                    dosage: document.getElementById('itemDosage').value,
+                    duration: document.getElementById('itemDuration').value,
+                    quantity: document.getElementById('itemQuantity').value,
+                    price: document.getElementById('itemPrice').value
+                };
+                
+                const total = (item.quantity * item.price).toFixed(2);
+                
+                const tbody = document.querySelector('#prescriptionItemsTable tbody');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getMedicineName(item.medicine)}</td>
+                    <td>${item.dosage}</td>
+                    <td>${item.duration}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${item.price}</td>
+                    <td>$${total}</td>
+                    <td>
+                        <button class="action-btn delete delete-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                
+                // Update subtotal
+                updatePrescriptionTotal();
+                
+                // Close modal and reset form
+                itemModal.classList.remove('active');
+                document.getElementById('prescriptionItemModal').reset();
+            });
+        }
+        
+        function setupConfirmationModal() {
+            const modal = document.getElementById('confirmModal');
+            const confirmBtn = document.getElementById('confirmAction');
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-medicine') || 
+                    e.target.classList.contains('delete-item')) {
+                    e.preventDefault();
+                    document.getElementById('confirmMessage').textContent = 
+                        'Are you sure you want to delete this item?';
+                    modal.classList.add('active');
+                }
+            });
+            
+            confirmBtn.addEventListener('click', function() {
+                // In a real app, you would delete the item
+                alert('Item deleted successfully!');
+                modal.classList.remove('active');
+            });
+        }
+        
+        function filterTable(tableId, searchTerm) {
+            const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function updatePrescriptionTotal() {
+            let subtotal = 0;
+            document.querySelectorAll('#prescriptionItemsTable tbody tr').forEach(row => {
+                const total = parseFloat(row.cells[5].textContent.replace('$', ''));
+                subtotal += total;
+            });
+            
+            document.getElementById('prescriptionSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+        }
+        
+        function getMedicineName(id) {
+            const medicines = {
+                1: 'Paracetamol (500mg Tablet)',
+                2: 'Ibuprofen (200mg Tablet)',
+                3: 'Amoxicillin (250mg Capsule)'
+            };
+            return medicines[id] || 'Unknown Medicine';
+        }
+        
+        function getStatusClass(status) {
+            const statusMap = {
+                'In Stock': 'success',
+                'Low Stock': 'warning',
+                'Out of Stock': 'danger'
+            };
+            return statusMap[status] || 'info';
+        }
+        
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>

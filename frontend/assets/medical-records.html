@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Medical Records</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>Medical Records</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search records..." id="recordsSearch">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">2</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>Records Officer</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="records-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="patient-records">Patient Records</button>
+                        <button class="tab-btn" data-tab="lab-results">Lab Results</button>
+                        <button class="tab-btn" data-tab="imaging">Imaging</button>
+                        <button class="tab-btn" data-tab="reports">Reports</button>
+                    </div>
+                    
+                    <!-- Patient Records Tab -->
+                    <div class="tab-content active" id="patient-records-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Patient Medical Records</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary" id="exportRecords">
+                                        <i class="fas fa-file-export"></i> Export
+                                    </button>
+                                    <button class="btn-primary" id="addRecord">
+                                        <i class="fas fa-plus"></i> New Record
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="recordsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Record ID</th>
+                                                <th>Patient</th>
+                                                <th>Visit Date</th>
+                                                <th>Doctor</th>
+                                                <th>Diagnosis</th>
+                                                <th>Treatment</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lab Results Tab -->
+                    <div class="tab-content" id="lab-results-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Laboratory Test Results</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary" id="printLabResults">
+                                        <i class="fas fa-print"></i> Print
+                                    </button>
+                                    <button class="btn-primary" id="newLabResult">
+                                        <i class="fas fa-plus"></i> New Result
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="labResultsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Lab ID</th>
+                                                <th>Patient</th>
+                                                <th>Test Name</th>
+                                                <th>Test Date</th>
+                                                <th>Result</th>
+                                                <th>Reference Range</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Imaging Tab -->
+                    <div class="tab-content" id="imaging-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Medical Imaging Records</h3>
+                                <div class="header-actions">
+                                    <button class="btn-primary" id="newImaging">
+                                        <i class="fas fa-plus"></i> New Imaging
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="imagingTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Image ID</th>
+                                                <th>Patient</th>
+                                                <th>Modality</th>
+                                                <th>Study Date</th>
+                                                <th>Body Part</th>
+                                                <th>Findings</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reports Tab -->
+                    <div class="tab-content" id="reports-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Medical Reports</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary" id="generateReport">
+                                        <i class="fas fa-chart-bar"></i> Generate Report
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="report-filters">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="reportType">Report Type</label>
+                                            <select id="reportType">
+                                                <option value="diagnosis">Diagnosis Summary</option>
+                                                <option value="admissions">Admissions Report</option>
+                                                <option value="procedures">Procedures Report</option>
+                                                <option value="custom">Custom Report</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dateRange">Date Range</label>
+                                            <select id="dateRange">
+                                                <option value="today">Today</option>
+                                                <option value="week">This Week</option>
+                                                <option value="month">This Month</option>
+                                                <option value="quarter">This Quarter</option>
+                                                <option value="year">This Year</option>
+                                                <option value="custom">Custom Range</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group date-range-custom" style="display: none;">
+                                            <label for="startDate">Start Date</label>
+                                            <input type="date" id="startDate">
+                                        </div>
+                                        <div class="form-group date-range-custom" style="display: none;">
+                                            <label for="endDate">End Date</label>
+                                            <input type="date" id="endDate">
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" id="applyFilters">Apply Filters</button>
+                                </div>
+                                <div class="report-results">
+                                    <div id="reportVisualization">
+                                        <!-- Charts/graphs will be rendered here -->
+                                        <div class="no-report">
+                                            <i class="fas fa-chart-line"></i>
+                                            <p>Select filters and click "Apply Filters" to generate report</p>
+                                        </div>
+                                    </div>
+                                    <div class="report-data">
+                                        <!-- Tabular data will be shown here when report is generated -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Medical Record Modal -->
+    <div class="modal" id="recordModal">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="recordModalTitle">New Medical Record</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="recordForm">
+                    <input type="hidden" id="recordId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="recordPatient">Patient*</label>
+                            <select id="recordPatient" required>
+                                <option value="">Select Patient</option>
+                                <option value="1">John Doe (MRN: 10001)</option>
+                                <option value="2">Jane Smith (MRN: 10002)</option>
+                                <option value="3">Michael Brown (MRN: 10003)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recordDoctor">Doctor*</label>
+                            <select id="recordDoctor" required>
+                                <option value="">Select Doctor</option>
+                                <option value="1">Dr. Robert Johnson</option>
+                                <option value="2">Dr. Emily Williams</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="recordDate">Visit Date*</label>
+                            <input type="date" id="recordDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="recordType">Visit Type*</label>
+                            <select id="recordType" required>
+                                <option value="">Select Type</option>
+                                <option value="consultation">Consultation</option>
+                                <option value="followup">Follow-up</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="routine">Routine Checkup</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordDiagnosis">Diagnosis*</label>
+                        <textarea id="recordDiagnosis" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordTreatment">Treatment Plan*</label>
+                        <textarea id="recordTreatment" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordPrescriptions">Prescriptions</label>
+                        <div class="prescription-items">
+                            <table id="recordPrescriptionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Dosage</th>
+                                        <th>Duration</th>
+                                        <th>Notes</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Prescription items will be added here -->
+                                </tbody>
+                            </table>
+                            <button type="button" class="btn-secondary" id="addPrescriptionToRecord">
+                                <i class="fas fa-plus"></i> Add Prescription
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordNotes">Additional Notes</label>
+                        <textarea id="recordNotes" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveRecord">Save Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Prescription to Record Modal -->
+    <div class="modal" id="recordPrescriptionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Prescription to Record</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="rpMedicine">Medicine*</label>
+                    <select id="rpMedicine" required>
+                        <option value="">Select Medicine</option>
+                        <option value="1">Paracetamol (500mg Tablet)</option>
+                        <option value="2">Ibuprofen (200mg Tablet)</option>
+                        <option value="3">Amoxicillin (250mg Capsule)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rpDosage">Dosage*</label>
+                        <input type="text" id="rpDosage" placeholder="e.g., 1 tablet twice daily" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rpDuration">Duration*</label>
+                        <input type="text" id="rpDuration" placeholder="e.g., 7 days" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rpNotes">Notes</label>
+                    <textarea id="rpNotes" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="addPrescriptionToRecordSave">Add to Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lab Result Modal -->
+    <div class="modal" id="labResultModal">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="labResultModalTitle">New Lab Result</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="labResultForm">
+                    <input type="hidden" id="labResultId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lrPatient">Patient*</label>
+                            <select id="lrPatient" required>
+                                <option value="">Select Patient</option>
+                                <option value="1">John Doe (MRN: 10001)</option>
+                                <option value="2">Jane Smith (MRN: 10002)</option>
+                                <option value="3">Michael Brown (MRN: 10003)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lrDoctor">Ordering Doctor*</label>
+                            <select id="lrDoctor" required>
+                                <option value="">Select Doctor</option>
+                                <option value="1">Dr. Robert Johnson</option>
+                                <option value="2">Dr. Emily Williams</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lrTestDate">Test Date*</label>
+                            <input type="date" id="lrTestDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lrTestName">Test Name*</label>
+                            <select id="lrTestName" required>
+                                <option value="">Select Test</option>
+                                <option value="cbc">Complete Blood Count (CBC)</option>
+                                <option value="chem7">Basic Metabolic Panel</option>
+                                <option value="lipid">Lipid Panel</option>
+                                <option value="liver">Liver Function Test</option>
+                                <option value="thyroid">Thyroid Panel</option>
+                                <option value="urinalysis">Urinalysis</option>
+                                <option value="other">Other Test</option>
+                            </select>
+                            <input type="text" id="lrTestNameOther" style="display: none;" placeholder="Enter test name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lrResults">Test Results*</label>
+                        <div class="table-responsive">
+                            <table id="lrResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Test Component</th>
+                                        <th>Result</th>
+                                        <th>Unit</th>
+                                        <th>Reference Range</th>
+                                        <th>Flag</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Test components will be loaded based on test selected -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lrInterpretation">Interpretation/Notes</label>
+                        <textarea id="lrInterpretation" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveLabResult">Save Result</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Imaging Modal -->
+    <div class="modal" id="imagingModal">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="imagingModalTitle">New Imaging Record</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="imagingForm">
+                    <input type="hidden" id="imagingId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="imgPatient">Patient*</label>
+                            <select id="imgPatient" required>
+                                <option value="">Select Patient</option>
+                                <option value="1">John Doe (MRN: 10001)</option>
+                                <option value="2">Jane Smith (MRN: 10002)</option>
+                                <option value="3">Michael Brown (MRN: 10003)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="imgDoctor">Ordering Doctor*</label>
+                            <select id="imgDoctor" required>
+                                <option value="">Select Doctor</option>
+                                <option value="1">Dr. Robert Johnson</option>
+                                <option value="2">Dr. Emily Williams</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="imgStudyDate">Study Date*</label>
+                            <input type="date" id="imgStudyDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imgModality">Modality*</label>
+                            <select id="imgModality" required>
+                                <option value="">Select Modality</option>
+                                <option value="xray">X-Ray</option>
+                                <option value="ct">CT Scan</option>
+                                <option value="mri">MRI</option>
+                                <option value="ultrasound">Ultrasound</option>
+                                <option value="mammography">Mammography</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="imgBodyPart">Body Part*</label>
+                        <input type="text" id="imgBodyPart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imgFindings">Findings*</label>
+                        <textarea id="imgFindings" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="imgImpression">Impression*</label>
+                        <textarea id="imgImpression" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="imgUpload">Upload Images (DICOM/JPEG)</label>
+                        <input type="file" id="imgUpload" multiple accept=".dcm,.dicom,.jpg,.jpeg,.png">
+                        <div class="upload-preview" id="imgPreview">
+                            <!-- Preview of uploaded images will appear here -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveImaging">Save Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Record Modal -->
+    <div class="modal" id="viewRecordModal">
+        <div class="modal-content extra-wide-modal">
+            <div class="modal-header">
+                <h3>Medical Record Details</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="record-details">
+                    <div class="detail-header">
+                        <div class="patient-info">
+                            <h4 id="vrPatientName">John Doe</h4>
+                            <p><strong>MRN:</strong> <span id="vrMRN">10001</span></p>
+                            <p><strong>Age:</strong> <span id="vrAge">45</span> | <strong>Gender:</strong> <span id="vrGender">Male</span></p>
+                        </div>
+                        <div class="visit-info">
+                            <p><strong>Visit Date:</strong> <span id="vrVisitDate">June 15, 2023</span></p>
+                            <p><strong>Visit Type:</strong> <span id="vrVisitType">Consultation</span></p>
+                            <p><strong>Doctor:</strong> <span id="vrDoctor">Dr. Robert Johnson</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5>Diagnosis</h5>
+                        <p id="vrDiagnosis">Acute pharyngitis (J02.9)</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5>Treatment Plan</h5>
+                        <p id="vrTreatment">Patient presented with sore throat and fever. Recommended rest, hydration, and symptomatic treatment with analgesics.</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5>Prescriptions</h5>
+                        <div class="table-responsive">
+                            <table id="vrPrescriptionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Dosage</th>
+                                        <th>Duration</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Prescription details will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5>Additional Notes</h5>
+                        <p id="vrNotes">Patient advised to return if symptoms worsen or persist beyond 7 days.</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5>Attachments</h5>
+                        <div class="attachments">
+                            <div class="attachment">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Lab_Results_10001_06152023.pdf</span>
+                                <button class="action-btn download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Close</button>
+                <button class="btn-primary" id="printRecord">
+                    <i class="fas fa-print"></i> Print Record
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-danger" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tabs
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Toggle custom date range fields
+            document.getElementById('dateRange').addEventListener('change', function() {
+                const customFields = document.querySelectorAll('.date-range-custom');
+                if (this.value === 'custom') {
+                    customFields.forEach(field => field.style.display = 'block');
+                } else {
+                    customFields.forEach(field => field.style.display = 'none');
+                }
+            });
+            
+            // Load initial data
+            loadMedicalRecords();
+            loadLabResults();
+            loadImagingRecords();
+            
+            // Set up modals
+            setupRecordModal();
+            setupLabResultModal();
+            setupImagingModal();
+            setupConfirmationModal();
+            
+            // Search functionality
+            document.getElementById('recordsSearch').addEventListener('input', function() {
+                filterTable('recordsTable', this.value.toLowerCase());
+            });
+        });
+        
+        function loadMedicalRecords() {
+            // Simulate loading records from API
+            const records = [
+                { 
+                    id: 'MR1001', 
+                    patient: 'John Doe', 
+                    patientId: '1',
+                    visitDate: '2023-06-15', 
+                    doctor: 'Dr. Robert Johnson', 
+                    diagnosis: 'Acute pharyngitis (J02.9)', 
+                    treatment: 'Symptomatic treatment with analgesics', 
+                    status: 'Completed',
+                    prescriptions: [
+                        { medicine: 'Paracetamol', dosage: '500mg every 6 hours', duration: '3 days', notes: 'As needed for pain/fever' }
+                    ]
+                },
+                { 
+                    id: 'MR1002', 
+                    patient: 'Jane Smith', 
+                    patientId: '2',
+                    visitDate: '2023-06-16', 
+                    doctor: 'Dr. Emily Williams', 
+                    diagnosis: 'Hypertension (I10)', 
+                    treatment: 'Lifestyle modifications and medication adjustment', 
+                    status: 'Ongoing',
+                    prescriptions: [
+                        { medicine: 'Lisinopril', dosage: '10mg once daily', duration: '30 days', notes: 'Monitor BP weekly' }
+                    ]
+                },
+                { 
+                    id: 'MR1003', 
+                    patient: 'Michael Brown', 
+                    patientId: '3',
+                    visitDate: '2023-06-17', 
+                    doctor: 'Dr. Robert Johnson', 
+                    diagnosis: 'Type 2 Diabetes (E11.9)', 
+                    treatment: 'Dietary counseling and medication', 
+                    status: 'Ongoing',
+                    prescriptions: [
+                        { medicine: 'Metformin', dosage: '500mg twice daily', duration: '30 days', notes: 'Take with meals' }
+                    ]
+                }
+            ];
+            
+            const tableBody = document.querySelector('#recordsTable tbody');
+            tableBody.innerHTML = '';
+            
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td>${record.patient}</td>
+                    <td>${formatDate(record.visitDate)}</td>
+                    <td>${record.doctor}</td>
+                    <td>${record.diagnosis}</td>
+                    <td>${record.treatment.substring(0, 50)}${record.treatment.length > 50 ? '...' : ''}</td>
+                    <td><span class="status-badge status-${record.status.toLowerCase()}">${record.status}</span></td>
+                    <td>
+                        <button class="action-btn view view-record" data-id="${record.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit edit-record" data-id="${record.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete delete-record" data-id="${record.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function loadLabResults() {
+            // Simulate loading lab results from API
+            const labResults = [
+                { 
+                    id: 'LAB1001', 
+                    patient: 'John Doe', 
+                    testName: 'Complete Blood Count (CBC)', 
+                    testDate: '2023-06-15', 
+                    result: 'Normal', 
+                    reference: 'See details', 
+                    status: 'Completed' 
+                },
+                { 
+                    id: 'LAB1002', 
+                    patient: 'Jane Smith', 
+                    testName: 'Lipid Panel', 
+                    testDate: '2023-06-16', 
+                    result: 'High Cholesterol', 
+                    reference: 'See details', 
+                    status: 'Reviewed' 
+                },
+                { 
+                    id: 'LAB1003', 
+                    patient: 'Michael Brown', 
+                    testName: 'Basic Metabolic Panel', 
+                    testDate: '2023-06-17', 
+                    result: 'Elevated Glucose', 
+                    reference: 'See details', 
+                    status: 'Pending Review' 
+                }
+            ];
+            
+            const tableBody = document.querySelector('#labResultsTable tbody');
+            tableBody.innerHTML = '';
+            
+            labResults.forEach(lab => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${lab.id}</td>
+                    <td>${lab.patient}</td>
+                    <td>${lab.testName}</td>
+                    <td>${formatDate(lab.testDate)}</td>
+                    <td>${lab.result}</td>
+                    <td>${lab.reference}</td>
+                    <td><span class="status-badge status-${lab.status.toLowerCase().replace(' ', '-')}">${lab.status}</span></td>
+                    <td>
+                        <button class="action-btn view view-lab" data-id="${lab.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn print print-lab" data-id="${lab.id}">
+                            <i class="fas fa-print"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function loadImagingRecords() {
+            // Simulate loading imaging records from API
+            const imagingRecords = [
+                { 
+                    id: 'IMG1001', 
+                    patient: 'John Doe', 
+                    modality: 'X-Ray', 
+                    studyDate: '2023-06-15', 
+                    bodyPart: 'Chest', 
+                    findings: 'No acute findings', 
+                    status: 'Completed' 
+                },
+                { 
+                    id: 'IMG1002', 
+                    patient: 'Jane Smith', 
+                    modality: 'MRI', 
+                    studyDate: '2023-06-16', 
+                    bodyPart: 'Brain', 
+                    findings: 'No abnormalities detected', 
+                    status: 'Completed' 
+                },
+                { 
+                    id: 'IMG1003', 
+                    patient: 'Michael Brown', 
+                    modality: 'Ultrasound', 
+                    studyDate: '2023-06-17', 
+                    bodyPart: 'Abdomen', 
+                    findings: 'Pending radiologist review', 
+                    status: 'Pending' 
+                }
+            ];
+            
+            const tableBody = document.querySelector('#imagingTable tbody');
+            tableBody.innerHTML = '';
+            
+            imagingRecords.forEach(img => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${img.id}</td>
+                    <td>${img.patient}</td>
+                    <td>${img.modality}</td>
+                    <td>${formatDate(img.studyDate)}</td>
+                    <td>${img.bodyPart}</td>
+                    <td>${img.findings.substring(0, 30)}${img.findings.length > 30 ? '...' : ''}</td>
+                    <td><span class="status-badge status-${img.status.toLowerCase()}">${img.status}</span></td>
+                    <td>
+                        <button class="action-btn view view-imaging" data-id="${img.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit edit-imaging" data-id="${img.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function setupRecordModal() {
+            const modal = document.getElementById('recordModal');
+            const addBtn = document.getElementById('addRecord');
+            const saveBtn = document.getElementById('saveRecord');
+            const addPrescriptionBtn = document.getElementById('addPrescriptionToRecord');
+            const prescriptionModal = document.getElementById('recordPrescriptionModal');
+            
+            addBtn.addEventListener('click', function() {
+                document.getElementById('recordForm').reset();
+                document.getElementById('recordId').value = '';
+                document.getElementById('recordModalTitle').textContent = 'New Medical Record';
+                document.querySelector('#recordPrescriptionsTable tbody').innerHTML = '';
+                modal.classList.add('active');
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would validate and save the record
+                alert('Medical record saved successfully!');
+                modal.classList.remove('active');
+                loadMedicalRecords();
+            });
+            
+            addPrescriptionBtn.addEventListener('click', function() {
+                prescriptionModal.classList.add('active');
+            });
+            
+            document.getElementById('addPrescriptionToRecordSave').addEventListener('click', function() {
+                // Add prescription to the record
+                const prescription = {
+                    medicine: document.getElementById('rpMedicine').value,
+                    dosage: document.getElementById('rpDosage').value,
+                    duration: document.getElementById('rpDuration').value,
+                    notes: document.getElementById('rpNotes').value
+                };
+                
+                const tbody = document.querySelector('#recordPrescriptionsTable tbody');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getMedicineName(prescription.medicine)}</td>
+                    <td>${prescription.dosage}</td>
+                    <td>${prescription.duration}</td>
+                    <td>${prescription.notes}</td>
+                    <td>
+                        <button class="action-btn delete delete-prescription">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                
+                // Close modal and reset form
+                prescriptionModal.classList.remove('active');
+                document.getElementById('recordPrescriptionModal').reset();
+            });
+            
+            // Edit buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('edit-record')) {
+                    const recordId = e.target.dataset.id;
+                    // In a real app, you would fetch the record data
+                    document.getElementById('recordId').value = recordId;
+                    document.getElementById('recordPatient').value = '1';
+                    document.getElementById('recordDoctor').value = '1';
+                    document.getElementById('recordDate').value = '2023-06-15';
+                    document.getElementById('recordType').value = 'consultation';
+                    document.getElementById('recordDiagnosis').value = 'Acute pharyngitis (J02.9)';
+                    document.getElementById('recordTreatment').value = 'Symptomatic treatment with analgesics';
+                    
+                    // Clear and repopulate prescriptions
+                    const tbody = document.querySelector('#recordPrescriptionsTable tbody');
+                    tbody.innerHTML = '';
+                    const prescriptionRow = document.createElement('tr');
+                    prescriptionRow.innerHTML = `
+                        <td>Paracetamol (500mg Tablet)</td>
+                        <td>500mg every 6 hours</td>
+                        <td>3 days</td>
+                        <td>As needed for pain/fever</td>
+                        <td>
+                            <button class="action-btn delete delete-prescription">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(prescriptionRow);
+                    
+                    document.getElementById('recordModalTitle').textContent = 'Edit Medical Record';
+                    modal.classList.add('active');
+                }
+                
+                if (e.target.classList.contains('view-record')) {
+                    const recordId = e.target.dataset.id;
+                    // In a real app, you would fetch the full record data
+                    document.getElementById('vrPatientName').textContent = 'John Doe';
+                    document.getElementById('vrMRN').textContent = '10001';
+                    document.getElementById('vrAge').textContent = '45';
+                    document.getElementById('vrGender').textContent = 'Male';
+                    document.getElementById('vrVisitDate').textContent = 'June 15, 2023';
+                    document.getElementById('vrVisitType').textContent = 'Consultation';
+                    document.getElementById('vrDoctor').textContent = 'Dr. Robert Johnson';
+                    document.getElementById('vrDiagnosis').textContent = 'Acute pharyngitis (J02.9)';
+                    document.getElementById('vrTreatment').textContent = 'Patient presented with sore throat and fever. Recommended rest, hydration, and symptomatic treatment with analgesics.';
+                    document.getElementById('vrNotes').textContent = 'Patient advised to return if symptoms worsen or persist beyond 7 days.';
+                    
+                    // Clear and repopulate prescriptions
+                    const tbody = document.querySelector('#vrPrescriptionsTable tbody');
+                    tbody.innerHTML = '';
+                    const prescriptionRow = document.createElement('tr');
+                    prescriptionRow.innerHTML = `
+                        <td>Paracetamol (500mg Tablet)</td>
+                        <td>500mg every 6 hours</td>
+                        <td>3 days</td>
+                        <td>As needed for pain/fever</td>
+                    `;
+                    tbody.appendChild(prescriptionRow);
+                    
+                    document.getElementById('viewRecordModal').classList.add('active');
+                }
+            });
+        }
+        
+        function setupLabResultModal() {
+            const modal = document.getElementById('labResultModal');
+            const addBtn = document.getElementById('newLabResult');
+            const saveBtn = document.getElementById('saveLabResult');
+            
+            addBtn.addEventListener('click', function() {
+                document.getElementById('labResultForm').reset();
+                document.getElementById('labResultId').value = '';
+                document.getElementById('labResultModalTitle').textContent = 'New Lab Result';
+                document.querySelector('#lrResultsTable tbody').innerHTML = '';
+                modal.classList.add('active');
+            });
+            
+            // Show/hide other test name field
+            document.getElementById('lrTestName').addEventListener('change', function() {
+                document.getElementById('lrTestNameOther').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would validate and save the lab result
+                alert('Lab result saved successfully!');
+                modal.classList.remove('active');
+                loadLabResults();
+            });
+        }
+        
+        function setupImagingModal() {
+            const modal = document.getElementById('imagingModal');
+            const addBtn = document.getElementById('newImaging');
+            const saveBtn = document.getElementById('saveImaging');
+            
+            addBtn.addEventListener('click', function() {
+                document.getElementById('imagingForm').reset();
+                document.getElementById('imagingId').value = '';
+                document.getElementById('imagingModalTitle').textContent = 'New Imaging Record';
+                document.getElementById('imgPreview').innerHTML = '';
+                modal.classList.add('active');
+            });
+            
+            // Preview image uploads
+            document.getElementById('imgUpload').addEventListener('change', function(e) {
+                const preview = document.getElementById('imgPreview');
+                preview.innerHTML = '';
+                
+                if (this.files) {
+                    Array.from(this.files).forEach(file => {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item';
+                            previewItem.innerHTML = `
+                                <img src="${e.target.result}" alt="${file.name}">
+                                <span>${file.name}</span>
+                                <button class="remove-image">&times;</button>
+                            `;
+                            preview.appendChild(previewItem);
+                        }
+                        
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would validate and save the imaging record
+                alert('Imaging record saved successfully!');
+                modal.classList.remove('active');
+                loadImagingRecords();
+            });
+        }
+        
+        function setupConfirmationModal() {
+            const modal = document.getElementById('confirmModal');
+            const confirmBtn = document.getElementById('confirmAction');
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-record') || 
+                    e.target.classList.contains('delete-prescription')) {
+                    e.preventDefault();
+                    document.getElementById('confirmMessage').textContent = 
+                        'Are you sure you want to delete this record?';
+                    modal.classList.add('active');
+                }
+            });
+            
+            confirmBtn.addEventListener('click', function() {
+                // In a real app, you would delete the record
+                alert('Record deleted successfully!');
+                modal.classList.remove('active');
+            });
+        }
+        
+        function filterTable(tableId, searchTerm) {
+            const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function getMedicineName(id) {
+            const medicines = {
+                1: 'Paracetamol (500mg Tablet)',
+                2: 'Ibuprofen (200mg Tablet)',
+                3: 'Amoxicillin (250mg Capsule)'
+            };
+            return medicines[id] || 'Unknown Medicine';
+        }
+        
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>

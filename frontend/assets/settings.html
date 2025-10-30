@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li> <class="active">
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>System Settings</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search settings..." id="settingsSearch">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">1</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>System Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="settings-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="general">General</button>
+                        <button class="tab-btn" data-tab="users">Users & Roles</button>
+                        <button class="tab-btn" data-tab="hospital">Hospital Info</button>
+                        <button class="tab-btn" data-tab="billing">Billing</button>
+                        <button class="tab-btn" data-tab="notifications">Notifications</button>
+                        <button class="tab-btn" data-tab="backup">Backup</button>
+                    </div>
+                    
+                    <!-- General Settings Tab -->
+                    <div class="tab-content active" id="general-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>General Settings</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="generalSettingsForm">
+                                    <div class="form-group">
+                                        <label for="systemLanguage">System Language</label>
+                                        <select id="systemLanguage">
+                                            <option value="en">English</option>
+                                            <option value="es">Spanish</option>
+                                            <option value="fr">French</option>
+                                            <option value="de">German</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="timezone">Timezone</label>
+                                        <select id="timezone">
+                                            <option value="UTC-5">(UTC-05:00) Eastern Time</option>
+                                            <option value="UTC-6">(UTC-06:00) Central Time</option>
+                                            <option value="UTC-7">(UTC-07:00) Mountain Time</option>
+                                            <option value="UTC-8">(UTC-08:00) Pacific Time</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateFormat">Date Format</label>
+                                        <select id="dateFormat">
+                                            <option value="MM/DD/YYYY">MM/DD/YYYY (12/31/2023)</option>
+                                            <option value="DD/MM/YYYY">DD/MM/YYYY (31/12/2023)</option>
+                                            <option value="YYYY-MM-DD">YYYY-MM-DD (2023-12-31)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="timeFormat">Time Format</label>
+                                        <select id="timeFormat">
+                                            <option value="12">12-hour (3:45 PM)</option>
+                                            <option value="24">24-hour (15:45)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recordsPerPage">Records Per Page</label>
+                                        <input type="number" id="recordsPerPage" min="5" max="100" value="25">
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="darkMode" checked>
+                                        <label for="darkMode">Enable Dark Mode</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="animations" checked>
+                                        <label for="animations">Enable Animations</label>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn-secondary" id="resetGeneralSettings">Reset to Defaults</button>
+                                        <button type="submit" class="btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Users & Roles Tab -->
+                    <div class="tab-content" id="users-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>User Management</h3>
+                                <div class="header-actions">
+                                    <button class="btn-primary" id="addUser">
+                                        <i class="fas fa-plus"></i> Add User
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="usersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>User ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Department</th>
+                                                <th>Last Login</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1001</td>
+                                                <td>
+                                                    <div class="user-avatar">
+                                                        <img src="images/user-avatar.jpg" alt="User Avatar">
+                                                        <span>Admin User</span>
+                                                    </div>
+                                                </td>
+                                                <td>admin@medicare.com</td>
+                                                <td>System Administrator</td>
+                                                <td>IT</td>
+                                                <td>Today, 09:42 AM</td>
+                                                <td><span class="status-badge status-active">Active</span></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-user">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="action-btn delete delete-user">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1002</td>
+                                                <td>
+                                                    <div class="user-avatar">
+                                                        <img src="images/doctor-avatar.jpg" alt="User Avatar">
+                                                        <span>Dr. Robert Johnson</span>
+                                                    </div>
+                                                </td>
+                                                <td>r.johnson@medicare.com</td>
+                                                <td>Doctor</td>
+                                                <td>Cardiology</td>
+                                                <td>Yesterday, 04:15 PM</td>
+                                                <td><span class="status-badge status-active">Active</span></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-user">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="action-btn delete delete-user">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1003</td>
+                                                <td>
+                                                    <div class="user-avatar">
+                                                        <img src="images/nurse-avatar.jpg" alt="User Avatar">
+                                                        <span>Sarah Williams</span>
+                                                    </div>
+                                                </td>
+                                                <td>s.williams@medicare.com</td>
+                                                <td>Nurse</td>
+                                                <td>Emergency</td>
+                                                <td>2 days ago</td>
+                                                <td><span class="status-badge status-active">Active</span></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-user">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="action-btn delete delete-user">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1004</td>
+                                                <td>
+                                                    <div class="user-avatar">
+                                                        <img src="images/pharmacist-avatar.jpg" alt="User Avatar">
+                                                        <span>Michael Brown</span>
+                                                    </div>
+                                                </td>
+                                                <td>m.brown@medicare.com</td>
+                                                <td>Pharmacist</td>
+                                                <td>Pharmacy</td>
+                                                <td>1 week ago</td>
+                                                <td><span class="status-badge status-inactive">Inactive</span></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-user">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="action-btn delete delete-user">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h3>Role Permissions</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="rolesTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Role</th>
+                                                <th>Dashboard</th>
+                                                <th>Patients</th>
+                                                <th>Doctors</th>
+                                                <th>Appointments</th>
+                                                <th>Pharmacy</th>
+                                                <th>Records</th>
+                                                <th>Settings</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>System Administrator</td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-role">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Doctor</td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-role">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nurse</td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-role">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pharmacist</td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-role">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Receptionist</td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td><i class="fas fa-check text-success"></i></td>
+                                                <td><i class="fas fa-times text-muted"></i></td>
+                                                <td>
+                                                    <button class="action-btn edit edit-role">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hospital Information Tab -->
+                    <div class="tab-content" id="hospital-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Hospital Information</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="hospitalInfoForm">
+                                    <div class="form-group">
+                                        <label for="hospitalName">Hospital Name*</label>
+                                        <input type="text" id="hospitalName" value="MediCare General Hospital" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospitalLogo">Hospital Logo</label>
+                                        <div class="logo-upload">
+                                            <img src="images/hospital-logo.png" id="logoPreview" alt="Hospital Logo">
+                                            <div class="upload-controls">
+                                                <input type="file" id="hospitalLogo" accept="image/*">
+                                                <button type="button" class="btn-secondary" id="uploadLogoBtn">Upload New Logo</button>
+                                                <button type="button" class="btn-text" id="removeLogoBtn">Remove Logo</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="hospitalAddress">Address*</label>
+                                            <input type="text" id="hospitalAddress" value="123 Medical Center Drive" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="hospitalCity">City*</label>
+                                            <input type="text" id="hospitalCity" value="Boston" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="hospitalState">State/Province*</label>
+                                            <input type="text" id="hospitalState" value="Massachusetts" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="hospitalZip">ZIP/Postal Code*</label>
+                                            <input type="text" id="hospitalZip" value="02115" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="hospitalCountry">Country*</label>
+                                            <select id="hospitalCountry" required>
+                                                <option value="US" selected>United States</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="UK">United Kingdom</option>
+                                                <!-- More countries would be listed here -->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="hospitalPhone">Phone*</label>
+                                            <input type="tel" id="hospitalPhone" value="+1 (617) 555-1234" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospitalEmail">Email*</label>
+                                        <input type="email" id="hospitalEmail" value="info@medicarehospital.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospitalWebsite">Website</label>
+                                        <input type="url" id="hospitalWebsite" value="https://www.medicarehospital.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospitalAbout">About Hospital</label>
+                                        <textarea id="hospitalAbout" rows="4">MediCare General Hospital is a leading healthcare provider committed to delivering exceptional patient care with state-of-the-art facilities and a team of highly skilled medical professionals.</textarea>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">Save Information</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Billing Settings Tab -->
+                    <div class="tab-content" id="billing-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Billing & Payment Settings</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="billingSettingsForm">
+                                    <div class="form-group">
+                                        <label for="currency">Currency*</label>
+                                        <select id="currency" required>
+                                            <option value="USD" selected>US Dollar (USD)</option>
+                                            <option value="EUR">Euro (EUR)</option>
+                                            <option value="GBP">British Pound (GBP)</option>
+                                            <option value="CAD">Canadian Dollar (CAD)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="taxRate">Tax Rate (%)*</label>
+                                        <input type="number" id="taxRate" min="0" max="50" step="0.01" value="7.5" required>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="enableTax" checked>
+                                        <label for="enableTax">Enable Tax Calculation</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="invoicePrefix">Invoice Prefix*</label>
+                                        <input type="text" id="invoicePrefix" value="INV-" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nextInvoiceNumber">Next Invoice Number*</label>
+                                        <input type="number" id="nextInvoiceNumber" min="1" value="1024" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="paymentTerms">Default Payment Terms (days)*</label>
+                                        <input type="number" id="paymentTerms" min="0" value="30" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lateFee">Late Fee Percentage (%)</label>
+                                        <input type="number" id="lateFee" min="0" max="20" step="0.1" value="1.5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="billingNotes">Default Invoice Notes</label>
+                                        <textarea id="billingNotes" rows="3">Payment due within the specified terms. Late payments may be subject to additional fees.</textarea>
+                                    </div>
+                                    <h4 class="section-title">Payment Methods</h4>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="cashPayment" checked>
+                                        <label for="cashPayment">Cash</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="creditCardPayment" checked>
+                                        <label for="creditCardPayment">Credit Card</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="insurancePayment" checked>
+                                        <label for="insurancePayment">Insurance</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="bankTransferPayment">
+                                        <label for="bankTransferPayment">Bank Transfer</label>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">Save Settings</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications Tab -->
+                    <div class="tab-content" id="notifications-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Notification Settings</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="notificationSettingsForm">
+                                    <h4 class="section-title">Email Notifications</h4>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <label for="emailNotifications">Enable Email Notifications</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpHost">SMTP Host*</label>
+                                        <input type="text" id="smtpHost" value="smtp.medicarehospital.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpPort">SMTP Port*</label>
+                                        <input type="number" id="smtpPort" value="587" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpUsername">SMTP Username*</label>
+                                        <input type="text" id="smtpUsername" value="notifications@medicarehospital.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpPassword">SMTP Password*</label>
+                                        <input type="password" id="smtpPassword" value="********" required>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="smtpSSL" checked>
+                                        <label for="smtpSSL">Use SSL/TLS</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fromEmail">From Email Address*</label>
+                                        <input type="email" id="fromEmail" value="no-reply@medicarehospital.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fromName">From Name*</label>
+                                        <input type="text" id="fromName" value="MediCare Hospital System" required>
+                                    </div>
+                                    
+                                    <h4 class="section-title">System Notifications</h4>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="appointmentReminders" checked>
+                                        <label for="appointmentReminders">Appointment Reminders</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="labResultsReady" checked>
+                                        <label for="labResultsReady">Lab Results Ready</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="prescriptionReady" checked>
+                                        <label for="prescriptionReady">Prescription Ready</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="billingReminders" checked>
+                                        <label for="billingReminders">Billing Reminders</label>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="systemAlerts" checked>
+                                        <label for="systemAlerts">System Alerts</label>
+                                    </div>
+                                    
+                                    <h4 class="section-title">Notification Templates</h4>
+                                    <div class="form-group">
+                                        <label for="appointmentSubject">Appointment Email Subject</label>
+                                        <input type="text" id="appointmentSubject" value="Appointment Reminder - MediCare Hospital">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="appointmentTemplate">Appointment Email Template</label>
+                                        <textarea id="appointmentTemplate" rows="5">Dear {patient_name},
+
+This is a reminder for your appointment with {doctor_name} on {appointment_date} at {appointment_time}.
+
+Location: {location}
+Purpose: {reason}
+
+Please arrive 15 minutes early. To reschedule, call {hospital_phone}.
+
+Thank you,
+{hospital_name}</textarea>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn-secondary" id="testEmailBtn">Send Test Email</button>
+                                        <button type="submit" class="btn-primary">Save Settings</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Backup Tab -->
+                    <div class="tab-content" id="backup-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Backup & Restore</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="backup-status">
+                                    <div class="status-card">
+                                        <div class="status-icon">
+                                            <i class="fas fa-database"></i>
+                                        </div>
+                                        <div class="status-info">
+                                            <h4>Last Backup</h4>
+                                            <p>June 18, 2023 02:00 AM</p>
+                                            <span class="status-badge status-success">Successful</span>
+                                        </div>
+                                    </div>
+                                    <div class="status-card">
+                                        <div class="status-icon">
+                                            <i class="fas fa-hdd"></i>
+                                        </div>
+                                        <div class="status-info">
+                                            <h4>Storage Used</h4>
+                                            <p>4.7 GB of 50 GB</p>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 9.4%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="status-card">
+                                        <div class="status-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="status-info">
+                                            <h4>Next Backup</h4>
+                                            <p>June 19, 2023 02:00 AM</p>
+                                            <span class="status-badge status-info">Scheduled</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="backup-actions">
+                                    <div class="action-card">
+                                        <h4>Create Backup</h4>
+                                        <p>Manually create a new backup of the system data</p>
+                                        <button class="btn-primary" id="createBackupBtn">
+                                            <i class="fas fa-plus-circle"></i> Create Backup Now
+                                        </button>
+                                    </div>
+                                    <div class="action-card">
+                                        <h4>Restore Backup</h4>
+                                        <p>Restore system data from a previous backup</p>
+                                        <button class="btn-secondary" id="restoreBackupBtn">
+                                            <i class="fas fa-history"></i> Restore Backup
+                                        </button>
+                                    </div>
+                                    <div class="action-card">
+                                        <h4>Download Backup</h4>
+                                        <p>Download a backup file to your local computer</p>
+                                        <button class="btn-secondary" id="downloadBackupBtn">
+                                            <i class="fas fa-download"></i> Download Latest
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="backup-settings">
+                                    <h4 class="section-title">Backup Settings</h4>
+                                    <form id="backupSettingsForm">
+                                        <div class="form-group checkbox-group">
+                                            <input type="checkbox" id="autoBackup" checked>
+                                            <label for="autoBackup">Enable Automatic Backups</label>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="backupFrequency">Frequency*</label>
+                                                <select id="backupFrequency" required>
+                                                    <option value="daily">Daily</option>
+                                                    <option value="weekly" selected>Weekly</option>
+                                                    <option value="monthly">Monthly</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="backupTime">Time*</label>
+                                                <input type="time" id="backupTime" value="02:00" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="backupRetention">Retention Period*</label>
+                                            <select id="backupRetention" required>
+                                                <option value="7">1 Week</option>
+                                                <option value="14">2 Weeks</option>
+                                                <option value="30" selected>1 Month</option>
+                                                <option value="90">3 Months</option>
+                                                <option value="180">6 Months</option>
+                                                <option value="365">1 Year</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="backupLocation">Backup Location</label>
+                                            <select id="backupLocation">
+                                                <option value="local" selected>Local Server</option>
+                                                <option value="aws">Amazon S3</option>
+                                                <option value="google">Google Drive</option>
+                                                <option value="dropbox">Dropbox</option>
+                                            </select>
+                                        </div>
+                                        <div id="awsSettings" class="cloud-settings" style="display: none;">
+                                            <div class="form-group">
+                                                <label for="awsAccessKey">AWS Access Key</label>
+                                                <input type="text" id="awsAccessKey">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="awsSecretKey">AWS Secret Key</label>
+                                                <input type="password" id="awsSecretKey">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="awsBucket">S3 Bucket Name</label>
+                                                <input type="text" id="awsBucket">
+                                            </div>
+                                        </div>
+                                        <div id="googleSettings" class="cloud-settings" style="display: none;">
+                                            <div class="form-group">
+                                                <label for="googleClientId">Google Client ID</label>
+                                                <input type="text" id="googleClientId">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="googleClientSecret">Google Client Secret</label>
+                                                <input type="password" id="googleClientSecret">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="googleFolderId">Google Drive Folder ID</label>
+                                                <input type="text" id="googleFolderId">
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-primary">Save Settings</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <div class="backup-history">
+                                    <h4 class="section-title">Backup History</h4>
+                                    <div class="table-responsive">
+                                        <table id="backupHistoryTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Backup Date</th>
+                                                    <th>Type</th>
+                                                    <th>Size</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>June 18, 2023 02:00 AM</td>
+                                                    <td>Automatic</td>
+                                                    <td>1.2 GB</td>
+                                                    <td><span class="status-badge status-success">Success</span></td>
+                                                    <td>
+                                                        <button class="action-btn download">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                        <button class="action-btn restore">
+                                                            <i class="fas fa-history"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>June 11, 2023 02:00 AM</td>
+                                                    <td>Automatic</td>
+                                                    <td>1.1 GB</td>
+                                                    <td><span class="status-badge status-success">Success</span></td>
+                                                    <td>
+                                                        <button class="action-btn download">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                        <button class="action-btn restore">
+                                                            <i class="fas fa-history"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>June 4, 2023 02:00 AM</td>
+                                                    <td>Automatic</td>
+                                                    <td>1.1 GB</td>
+                                                    <td><span class="status-badge status-success">Success</span></td>
+                                                    <td>
+                                                        <button class="action-btn download">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                        <button class="action-btn restore">
+                                                            <i class="fas fa-history"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>May 28, 2023 02:00 AM</td>
+                                                    <td>Automatic</td>
+                                                    <td>1.0 GB</td>
+                                                    <td><span class="status-badge status-success">Success</span></td>
+                                                    <td>
+                                                        <button class="action-btn download">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                        <button class="action-btn restore">
+                                                            <i class="fas fa-history"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="userModalTitle">Add New User</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    <div class="form-group">
+                        <label for="userAvatar">Profile Picture</label>
+                        <div class="avatar-upload">
+                            <img src="images/default-avatar.jpg" id="avatarPreview" alt="User Avatar">
+                            <input type="file" id="userAvatar" accept="image/*">
+                            <button type="button" class="btn-text" id="removeAvatarBtn">Remove</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name*</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name*</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email*</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Role*</label>
+                        <select id="userRole" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">System Administrator</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="pharmacist">Pharmacist</option>
+                            <option value="receptionist">Receptionist</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userDepartment">Department</label>
+                        <select id="userDepartment">
+                            <option value="">Select Department</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="pharmacy">Pharmacy</option>
+                            <option value="radiology">Radiology</option>
+                            <option value="surgery">Surgery</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userStatus">Status*</label>
+                        <select id="userStatus" required>
+                            <option value="active" selected>Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Password*</label>
+                        <input type="password" id="userPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password*</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveUser">Save User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Role Permissions Modal -->
+    <div class="modal" id="roleModal">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="roleModalTitle">Edit Role Permissions</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="roleForm">
+                    <input type="hidden" id="roleId">
+                    <div class="form-group">
+                        <label for="roleName">Role Name*</label>
+                        <input type="text" id="roleName" required>
+                    </div>
+                    
+                    <h4 class="section-title">Module Permissions</h4>
+                    <div class="permissions-grid">
+                        <div class="permission-item">
+                            <h5>Dashboard</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permDashboardView" checked>
+                                <label for="permDashboardView">View Dashboard</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Patients</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPatientsView" checked>
+                                <label for="permPatientsView">View Patients</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPatientsAdd">
+                                <label for="permPatientsAdd">Add Patients</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPatientsEdit">
+                                <label for="permPatientsEdit">Edit Patients</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPatientsDelete">
+                                <label for="permPatientsDelete">Delete Patients</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Doctors</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permDoctorsView">
+                                <label for="permDoctorsView">View Doctors</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permDoctorsAdd">
+                                <label for="permDoctorsAdd">Add Doctors</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permDoctorsEdit">
+                                <label for="permDoctorsEdit">Edit Doctors</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permDoctorsDelete">
+                                <label for="permDoctorsDelete">Delete Doctors</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Appointments</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permAppointmentsView" checked>
+                                <label for="permAppointmentsView">View Appointments</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permAppointmentsAdd">
+                                <label for="permAppointmentsAdd">Add Appointments</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permAppointmentsEdit">
+                                <label for="permAppointmentsEdit">Edit Appointments</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permAppointmentsDelete">
+                                <label for="permAppointmentsDelete">Delete Appointments</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Pharmacy</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPharmacyView">
+                                <label for="permPharmacyView">View Pharmacy</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPharmacyAdd">
+                                <label for="permPharmacyAdd">Add Medicines</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPharmacyEdit">
+                                <label for="permPharmacyEdit">Edit Medicines</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permPharmacyDelete">
+                                <label for="permPharmacyDelete">Delete Medicines</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Medical Records</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permRecordsView">
+                                <label for="permRecordsView">View Records</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permRecordsAdd">
+                                <label for="permRecordsAdd">Add Records</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permRecordsEdit">
+                                <label for="permRecordsEdit">Edit Records</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permRecordsDelete">
+                                <label for="permRecordsDelete">Delete Records</label>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <h5>Settings</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permSettingsView">
+                                <label for="permSettingsView">View Settings</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="permSettingsEdit">
+                                <label for="permSettingsEdit">Edit Settings</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="saveRole">Save Permissions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure you want to delete this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-danger" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backup Progress Modal -->
+    <div class="modal" id="backupProgressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Creating Backup</h3>
+            </div>
+            <div class="modal-body">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="backupProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="backupProgressText">Initializing backup process...</div>
+                </div>
+                <div class="backup-details" id="backupDetails">
+                    <div class="detail-item">
+                        <span>Database:</span>
+                        <span id="dbStatus">Pending</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Files:</span>
+                        <span id="filesStatus">Pending</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Compression:</span>
+                        <span id="compressionStatus">Pending</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBackupBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tabs
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Backup location change handler
+            document.getElementById('backupLocation').addEventListener('change', function() {
+                document.querySelectorAll('.cloud-settings').forEach(el => el.style.display = 'none');
+                if (this.value === 'aws') {
+                    document.getElementById('awsSettings').style.display = 'block';
+                } else if (this.value === 'google') {
+                    document.getElementById('googleSettings').style.display = 'block';
+                }
+            });
+            
+            // User avatar upload preview
+            document.getElementById('userAvatar').addEventListener('change', function(e) {
+                const preview = document.getElementById('avatarPreview');
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Hospital logo upload preview
+            document.getElementById('hospitalLogo').addEventListener('change', function(e) {
+                const preview = document.getElementById('logoPreview');
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Remove avatar button
+            document.getElementById('removeAvatarBtn').addEventListener('click', function() {
+                document.getElementById('avatarPreview').src = 'images/default-avatar.jpg';
+                document.getElementById('userAvatar').value = '';
+            });
+            
+            // Remove logo button
+            document.getElementById('removeLogoBtn').addEventListener('click', function() {
+                document.getElementById('logoPreview').src = 'images/hospital-logo.png';
+                document.getElementById('hospitalLogo').value = '';
+            });
+            
+            // Create backup button
+            document.getElementById('createBackupBtn').addEventListener('click', function() {
+                const modal = document.getElementById('backupProgressModal');
+                modal.classList.add('active');
+                
+                // Simulate backup progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    
+                    document.getElementById('backupProgress').style.width = `${progress}%`;
+                    document.getElementById('backupProgressText').textContent = 
+                        `Backup in progress... ${Math.floor(progress)}% complete`;
+                    
+                    // Update status details
+                    if (progress >= 30) {
+                        document.getElementById('dbStatus').textContent = 'Completed';
+                    }
+                    if (progress >= 60) {
+                        document.getElementById('filesStatus').textContent = 'Completed';
+                    }
+                    if (progress >= 90) {
+                        document.getElementById('compressionStatus').textContent = 'Completed';
+                    }
+                    
+                    if (progress === 100) {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            modal.classList.remove('active');
+                            alert('Backup completed successfully!');
+                        }, 1000);
+                    }
+                }, 500);
+                
+                // Cancel backup button
+                document.getElementById('cancelBackupBtn').addEventListener('click', function() {
+                    clearInterval(interval);
+                    modal.classList.remove('active');
+                }, { once: true });
+            });
+            
+            // Add user button
+            document.getElementById('addUser').addEventListener('click', function() {
+                document.getElementById('userForm').reset();
+                document.getElementById('userId').value = '';
+                document.getElementById('userModalTitle').textContent = 'Add New User';
+                document.getElementById('avatarPreview').src = 'images/default-avatar.jpg';
+                document.getElementById('userModal').classList.add('active');
+            });
+            
+            // Edit user buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('edit-user')) {
+                    const userId = e.target.closest('tr').querySelector('td:first-child').textContent;
+                    document.getElementById('userId').value = userId;
+                    document.getElementById('userModalTitle').textContent = 'Edit User';
+                    
+                    // In a real app, you would fetch the user data
+                    document.getElementById('firstName').value = 'Admin';
+                    document.getElementById('lastName').value = 'User';
+                    document.getElementById('userEmail').value = 'admin@medicare.com';
+                    document.getElementById('userRole').value = 'admin';
+                    document.getElementById('userDepartment').value = 'IT';
+                    document.getElementById('userStatus').value = 'active';
+                    
+                    document.getElementById('userModal').classList.add('active');
+                }
+                
+                if (e.target.classList.contains('edit-role')) {
+                    const roleName = e.target.closest('tr').querySelector('td:first-child').textContent;
+                    document.getElementById('roleName').value = roleName;
+                    document.getElementById('roleModalTitle').textContent = `Edit ${roleName} Permissions`;
+                    
+                    // In a real app, you would fetch the role permissions
+                    document.getElementById('permDashboardView').checked = true;
+                    document.getElementById('permPatientsView').checked = true;
+                    document.getElementById('permPatientsAdd').checked = true;
+                    document.getElementById('permPatientsEdit').checked = true;
+                    document.getElementById('permPatientsDelete').checked = true;
+                    document.getElementById('permAppointmentsView').checked = true;
+                    
+                    document.getElementById('roleModal').classList.add('active');
+                }
+            });
+            
+            // Save user button
+            document.getElementById('saveUser').addEventListener('click', function() {
+                // Validate form
+                if (document.getElementById('userPassword').value !== 
+                    document.getElementById('confirmPassword').value) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // In a real app, you would save the user
+                alert('User saved successfully!');
+                document.getElementById('userModal').classList.remove('active');
+            });
+            
+            // Save role button
+            document.getElementById('saveRole').addEventListener('click', function() {
+                // In a real app, you would save the role permissions
+                alert('Role permissions updated successfully!');
+                document.getElementById('roleModal').classList.remove('active');
+            });
+            
+            // Confirmation for delete actions
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-user')) {
+                    const userName = e.target.closest('tr').querySelector('td:nth-child(2) span').textContent;
+                    document.getElementById('confirmMessage').textContent = 
+                        `Are you sure you want to delete user "${userName}"?`;
+                    document.getElementById('confirmModal').classList.add('active');
+                }
+            });
+            
+            document.getElementById('confirmAction').addEventListener('click', function() {
+                // In a real app, you would delete the user
+                alert('User deleted successfully!');
+                document.getElementById('confirmModal').classList.remove('active');
+            });
+            
+            // Form submissions
+            document.getElementById('generalSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('General settings saved successfully!');
+            });
+            
+            document.getElementById('hospitalInfoForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Hospital information saved successfully!');
+            });
+            
+            document.getElementById('billingSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Billing settings saved successfully!');
+            });
+            
+            document.getElementById('notificationSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Notification settings saved successfully!');
+            });
+            
+            document.getElementById('backupSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Backup settings saved successfully!');
+            });
+            
+            // Test email button
+            document.getElementById('testEmailBtn').addEventListener('click', function() {
+                alert('Test email sent successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

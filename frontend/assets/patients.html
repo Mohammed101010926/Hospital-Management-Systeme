@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Patients</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="dashboard">
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-hospital-alt"></i>
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="patients.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Patients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doctors.html">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointments.html">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pharmacy.html">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medical-records.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wa.html">
+                            <i class="fas fa-bed"></i>
+                            <span>ward beds</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2>Patients</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search patients..." id="patientSearch">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <img src="images/user-avatar.jpg" alt="User Avatar">
+                            <span>Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="dropdown-menu">
+                                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Patient Records</h3>
+                        <button class="btn-primary" id="addPatientBtn">
+                            <i class="fas fa-plus"></i> Add Patient
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="patientsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Date of Birth</th>
+                                        <th>Gender</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Blood Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be loaded via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Patient Modal -->
+    <div class="modal" id="patientModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Patient</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="patientForm">
+                    <input type="hidden" id="patientId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateOfBirth">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodType">Blood Type</label>
+                        <select id="bloodType">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="savePatient">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div class="modal" id="patientDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detailsModalTitle">Patient Details</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="patient-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Patient ID:</span>
+                        <span class="detail-value" id="detailId"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value" id="detailName"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date of Birth:</span>
+                        <span class="detail-value" id="detailDob"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Age:</span>
+                        <span class="detail-value" id="detailAge"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Gender:</span>
+                        <span class="detail-value" id="detailGender"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value" id="detailAddress"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value" id="detailPhone"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value" id="detailEmail"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Blood Type:</span>
+                        <span class="detail-value" id="detailBloodType"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Registered On:</span>
+                        <span class="detail-value" id="detailRegistered"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this patient?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load patients data
+            loadPatients();
+            
+            // Modal functionality
+            const modal = document.getElementById('patientModal');
+            const detailsModal = document.getElementById('patientDetailsModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const addBtn = document.getElementById('addPatientBtn');
+            const saveBtn = document.getElementById('savePatient');
+            const modalTitle = document.getElementById('modalTitle');
+            const patientForm = document.getElementById('patientForm');
+            
+            // Search functionality
+            const searchInput = document.getElementById('patientSearch');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#patientsTable tbody tr');
+                
+                rows.forEach(row => {
+                    const name = row.cells[1].textContent.toLowerCase();
+                    const phone = row.cells[4].textContent.toLowerCase();
+                    const email = row.cells[5].textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else if (phone.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else if (email.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Open modal for adding new patient
+            addBtn.addEventListener('click', function() {
+                patientForm.reset();
+                document.getElementById('patientId').value = '';
+                modalTitle.textContent = 'Add New Patient';
+                modal.classList.add('active');
+            });
+            
+            // Close modal when clicking X or cancel
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    modal.classList.remove('active');
+                    detailsModal.classList.remove('active');
+                    confirmModal.classList.remove('active');
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+                if (e.target === detailsModal) {
+                    detailsModal.classList.remove('active');
+                }
+                if (e.target === confirmModal) {
+                    confirmModal.classList.remove('active');
+                }
+            });
+            
+            // Save patient
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would make an API call here
+                alert('Patient saved successfully!');
+                modal.classList.remove('active');
+                loadPatients(); // Refresh the table
+            });
+            
+            // Delete confirmation
+            let patientToDelete = null;
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-patient')) {
+                    e.preventDefault();
+                    patientToDelete = e.target.dataset.id;
+                    confirmModal.classList.add('active');
+                }
+                
+                if (e.target.classList.contains('view-patient')) {
+                    e.preventDefault();
+                    const patientId = e.target.dataset.id;
+                    showPatientDetails(patientId);
+                }
+            });
+            
+            document.getElementById('confirmDelete').addEventListener('click', function() {
+                // In a real app, you would make an API call here
+                alert('Patient deleted successfully!');
+                confirmModal.classList.remove('active');
+                loadPatients(); // Refresh the table
+            });
+        });
+        
+        function loadPatients() {
+            // Simulate loading patients from API
+            const patients = [
+                { id: 1, firstName: 'John', lastName: 'Doe', dob: '1985-05-15', gender: 'Male', 
+                  address: '123 Main St, New York', phone: '555-1234', email: 'john.doe@email.com', 
+                  bloodType: 'A+', createdAt: '2023-01-10' },
+                { id: 2, firstName: 'Jane', lastName: 'Smith', dob: '1990-08-22', gender: 'Female', 
+                  address: '456 Oak Ave, Boston', phone: '555-5678', email: 'jane.smith@email.com', 
+                  bloodType: 'B-', createdAt: '2023-02-15' },
+                { id: 3, firstName: 'Michael', lastName: 'Brown', dob: '1978-11-30', gender: 'Male', 
+                  address: '789 Pine Rd, Chicago', phone: '555-9012', email: 'michael.brown@email.com', 
+                  bloodType: 'O+', createdAt: '2023-03-20' },
+                { id: 4, firstName: 'Emily', lastName: 'Davis', dob: '1995-04-05', gender: 'Female', 
+                  address: '321 Elm St, Los Angeles', phone: '555-3456', email: 'emily.davis@email.com', 
+                  bloodType: 'AB+', createdAt: '2023-04-25' }
+            ];
+            
+            const tableBody = document.querySelector('#patientsTable tbody');
+            tableBody.innerHTML = '';
+            
+            patients.forEach(patient => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${patient.id}</td>
+                    <td>${patient.firstName} ${patient.lastName}</td>
+                    <td>${formatDate(patient.dob)}</td>
+                    <td>${patient.gender}</td>
+                    <td>${patient.phone}</td>
+                    <td>${patient.email}</td>
+                    <td>${patient.bloodType}</td>
+                    <td>
+                        <button class="action-btn view view-patient" data-id="${patient.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="action-btn edit edit-patient" data-id="${patient.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete delete-patient" data-id="${patient.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-patient').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const patientId = this.dataset.id;
+                    // In a real app, you would fetch the patient data from the API
+                    const patient = patients.find(p => p.id == patientId);
+                    
+                    if (patient) {
+                        document.getElementById('patientId').value = patient.id;
+                        document.getElementById('firstName').value = patient.firstName;
+                        document.getElementById('lastName').value = patient.lastName;
+                        document.getElementById('dateOfBirth').value = patient.dob;
+                        document.getElementById('gender').value = patient.gender;
+                        document.getElementById('address').value = patient.address;
+                        document.getElementById('phone').value = patient.phone;
+                        document.getElementById('email').value = patient.email;
+                        document.getElementById('bloodType').value = patient.bloodType;
+                        
+                        document.getElementById('modalTitle').textContent = 'Edit Patient';
+                        document.getElementById('patientModal').classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        function showPatientDetails(patientId) {
+            // In a real app, you would fetch the patient details from the API
+            const patients = [
+                { id: 1, firstName: 'John', lastName: 'Doe', dob: '1985-05-15', gender: 'Male', 
+                  address: '123 Main St, New York', phone: '555-1234', email: 'john.doe@email.com', 
+                  bloodType: 'A+', createdAt: '2023-01-10 10:30:00' },
+                { id: 2, firstName: 'Jane', lastName: 'Smith', dob: '1990-08-22', gender: 'Female', 
+                  address: '456 Oak Ave, Boston', phone: '555-5678', email: 'jane.smith@email.com', 
+                  bloodType: 'B-', createdAt: '2023-02-15 14:45:00' },
+                { id: 3, firstName: 'Michael', lastName: 'Brown', dob: '1978-11-30', gender: 'Male', 
+                  address: '789 Pine Rd, Chicago', phone: '555-9012', email: 'michael.brown@email.com', 
+                  bloodType: 'O+', createdAt: '2023-03-20 09:15:00' },
+                { id: 4, firstName: 'Emily', lastName: 'Davis', dob: '1995-04-05', gender: 'Female', 
+                  address: '321 Elm St, Los Angeles', phone: '555-3456', email: 'emily.davis@email.com', 
+                  bloodType: 'AB+', createdAt: '2023-04-25 16:20:00' }
+            ];
+            
+            const patient = patients.find(p => p.id == patientId);
+            
+            if (patient) {
+                // Calculate age from date of birth
+                const dob = new Date(patient.dob);
+                const today = new Date();
+                let age = today.getFullYear() - dob.getFullYear();
+                const monthDiff = today.getMonth() - dob.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+                
+                // Format registration date
+                const regDate = new Date(patient.createdAt);
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                const formattedRegDate = regDate.toLocaleDateString('en-US', options);
+                
+                // Populate details modal
+                document.getElementById('detailId').textContent = patient.id;
+                document.getElementById('detailName').textContent = `${patient.firstName} ${patient.lastName}`;
+                document.getElementById('detailDob').textContent = formatDate(patient.dob);
+                document.getElementById('detailAge').textContent = `${age} years`;
+                document.getElementById('detailGender').textContent = patient.gender;
+                document.getElementById('detailAddress').textContent = patient.address;
+                document.getElementById('detailPhone').textContent = patient.phone;
+                document.getElementById('detailEmail').textContent = patient.email;
+                document.getElementById('detailBloodType').textContent = patient.bloodType;
+                document.getElementById('detailRegistered').textContent = formattedRegDate;
+                
+                // Show modal
+                document.getElementById('detailsModalTitle').textContent = `Patient: ${patient.firstName} ${patient.lastName}`;
+                document.getElementById('patientDetailsModal').classList.add('active');
+            }
+        }
+        
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>

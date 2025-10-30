@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            margin-right: 0.75rem;
+        }
+        
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .navbar li {
+            margin-left: 2rem;
+        }
+        
+        .navbar a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: var(--primary);
+        }
+        
+        .navbar a.active {
+            color: var(--primary);
+        }
+        
+        .navbar a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .btn-login {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .btn-login:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Auth Section */
+        .auth-container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            display: flex;
+            margin: 100px auto 50px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .auth-illustration {
+            flex: 1;
+            background: linear-gradient(to right bottom, var(--primary), var(--secondary));
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-illustration::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+        
+        .auth-illustration::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+        }
+        
+        .illustration-img {
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-content {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .auth-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .auth-header p {
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .auth-form {
+            width: 100%;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            color: var(--gray);
+            z-index: 1;
+        }
+        
+        .input-group input, 
+        .input-group select {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+            appearance: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .input-group input:focus, 
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background-color: white;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 0.5rem;
+            accent-color: var(--primary);
+        }
+        
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            color: var(--gray);
+        }
+        
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Password Strength Meter */
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            background-color: var(--gray-light);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: var(--transition);
+        }
+        
+        /* Password Hints */
+        .password-hints {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .password-hints ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        
+        .password-hints li {
+            margin-bottom: 0.3rem;
+            position: relative;
+        }
+        
+        .password-hints li::before {
+            content: '•';
+            position: absolute;
+            left: -1rem;
+        }
+        
+        .password-hints li.valid {
+            color: var(--success);
+        }
+        
+        /* Role Selection */
+        .role-selection {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .role-option input {
+            display: none;
+        }
+        
+        .role-option label {
+            display: block;
+            padding: 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .role-option input:checked + label {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+        
+        .role-option i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* Terms Checkbox */
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .terms-checkbox input {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            accent-color: var(--primary);
+        }
+        
+        .terms-checkbox label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .terms-checkbox a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Error Messages */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: none;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .auth-container {
+                flex-direction: column;
+                margin-top: 80px;
+            }
+            
+            .auth-illustration {
+                display: none;
+            }
+            
+            .auth-content {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+                z-index: 999;
+            }
+            
+            .navbar.active {
+                left: 0;
+            }
+            
+            .navbar ul {
+                flex-direction: column;
+                padding: 2rem;
+            }
+            
+            .navbar li {
+                margin: 1rem 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .role-selection {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-hospital-alt"></i>
+                <span>MediCare</span>
+            </a>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#doctors">Doctors</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="login.html" class="btn-login active">Login</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="auth-container">
+            <!-- Illustration Section -->
+            <div class="auth-illustration">
+                <img src="https://img.freepik.com/free-vector/medical-team-concept-illustration_114360-8403.jpg" alt="Medical Illustration" class="illustration-img">
+                <h2>Welcome to MediCare</h2>
+                <p>Your health is our priority. Access your account to manage your healthcare needs.</p>
+            </div>
+            
+            <!-- Form Section -->
+            <div class="auth-content">
+                <!-- Login Form (Default Visible) -->
+                <form id="loginForm" class="auth-form">
+                    <div class="auth-header">
+                        <h2>Welcome Back</h2>
+                        <p>Login to access your dashboard</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username">Username or Email</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" placeholder="Enter your username or email" required>
+                        </div>
+                        <div class="error-message" id="username-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                        <div class="error-message" id="password-error"></div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#" id="showRegister">Register here</a></p>
+                    </div>
+                </form>
+                
+                <!-- Register Form (Hidden by Default) -->
+                <form id="registerForm" class="auth-form" style="display: none;">
+                    <div class="auth-header">
+                        <h2>Create Account</h2>
+                        <p>Register to access the system</p>
+                    </div>
+                    
+                    <div class="success-message" id="register-success">
+                        Registration successful! Please check your email to verify your account.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-username">Username</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
+                        </div>
+                        <div class="error-message" id="reg-username-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="reg-email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="error-message" id="reg-email-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="reg-password" name="password" placeholder="Create a password" required>
+                            <i class="fas fa-eye toggle-password" id="toggleRegPassword"></i>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="strengthMeter"></div>
+                        </div>
+                        <div class="password-hints">
+                            <ul>
+                                <li id="length-hint">At least 8 characters</li>
+                                <li id="uppercase-hint">Contains uppercase letter</li>
+                                <li id="number-hint">Contains number</li>
+                                <li id="special-hint">Contains special character</li>
+                            </ul>
+                        </div>
+                        <div class="error-message" id="reg-password-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Confirm Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="reg-confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+                            <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+                        </div>
+                        <div class="error-message" id="reg-confirm-password-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <div class="role-selection">
+                            <div class="role-option">
+                                <input type="radio" id="doctor" name="role" value="doctor">
+                                <label for="doctor">
+                                    <i class="fas fa-user-md"></i>
+                                    <div>Doctor</div>
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="patient" name="role" value="patient" checked>
+                                <label for="patient">
+                                    <i class="fas fa-user-injured"></i>
+                                    <div>Patient</div>
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="staff" name="role" value="staff">
+                                <label for="staff">
+                                    <i class="fas fa-user-nurse"></i>
+                                    <div>Staff</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-message" id="role-error"></div>
+                    </div>
+                    
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    <div class="error-message" id="terms-error"></div>
+                    
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleRegPassword = document.getElementById('toggleRegPassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const passwordInput = document.getElementById('password');
+        const regPasswordInput = document.getElementById('reg-password');
+        const confirmPasswordInput = document.getElementById('reg-confirm-password');
+        const strengthMeter = document.getElementById('strengthMeter');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navbar = document.querySelector('.navbar');
+        
+        // Toggle between login and register forms
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            registerForm.style.animation = 'slideIn 0.4s ease-out';
+        });
+        
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            loginForm.style.animation = 'slideIn 0.4s ease-out';
+        });
+        
+        // Toggle password visibility
+        function togglePasswordVisibility(inputElement, toggleElement) {
+            const type = inputElement.getAttribute('type') === 'password' ? 'text' : 'password';
+            inputElement.setAttribute('type', type);
+            toggleElement.classList.toggle('fa-eye');
+            toggleElement.classList.toggle('fa-eye-slash');
+        }
+        
+        togglePassword.addEventListener('click', () => {
+            togglePasswordVisibility(passwordInput, togglePassword);
+        });
+        
+        toggleRegPassword.addEventListener('click', () => {
+            togglePasswordVisibility(regPasswordInput, toggleRegPassword);
+        });
+        
+        toggleConfirmPassword.addEventListener('click', () => {
+            togglePasswordVisibility(confirmPasswordInput, toggleConfirmPassword);
+        });
+        
+        // Password strength checker
+        regPasswordInput.addEventListener('input', () => {
+            const password = regPasswordInput.value;
+            let strength = 0;
+            
+            // Check password length
+            if (password.length >= 8) {
+                strength += 1;
+                document.getElementById('length-hint').classList.add('valid');
+            } else {
+                document.getElementById('length-hint').classList.remove('valid');
+            }
+            
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                strength += 1;
+                document.getElementById('uppercase-hint').classList.add('valid');
+            } else {
+                document.getElementById('uppercase-hint').classList.remove('valid');
+            }
+            
+            // Check for numbers
+            if (/[0-9]/.test(password)) {
+                strength += 1;
+                document.getElementById('number-hint').classList.add('valid');
+            } else {
+                document.getElementById('number-hint').classList.remove('valid');
+            }
+            
+            // Check for special characters
+            if (/[^A-Za-z0-9]/.test(password)) {
+                strength += 1;
+                document.getElementById('special-hint').classList.add('valid');
+            } else {
+                document.getElementById('special-hint').classList.remove('valid');
+            }
+            
+            // Update strength meter
+            const strengthPercent = (strength / 4) * 100;
+            strengthMeter.style.width = `${strengthPercent}%`;
+            
+            // Change color based on strength
+            if (strength <= 1) {
+                strengthMeter.style.backgroundColor = va(--danger);
+            } else if (strength <= 3) {
+                strengthMeter.style.backgroundColor = va(--warning);
+            } else {
+                strengthMeter.style.backgroundColor = va(--success);
+            }
+        });
+        
+        // Form validation
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validate username/email
+            const username = document.getElementById('username').value.trim();
+            if (username === '') {
+                document.getElementById('username-error').textContent = 'Username or email is required';
+                document.getElementById('username-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('username-error').style.display = 'none';
+            }
+            
+            // Validate password
+            const password = document.getElementById('password').value.trim();
+            if (password === '') {
+                document.getElementById('password-error').textContent = 'Password is required';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('password-error').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Simulate successful login
+                console.log('Login submitted:', { username, password });
+                // Here you would typically make an AJAX call to your backend
+                alert('Login successful! Redirecting to dashboard...');
+                // window.location.href = 'dashboard.html';
+            }
+        });
+        
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validate username
+            const username = document.getElementById('reg-username').value.trim();
+            if (username === '') {
+                document.getElementById('reg-username-error').textContent = 'Username is required';
+                document.getElementById('reg-username-error').style.display = 'block';
+                isValid = false;
+            } else if (username.length < 4) {
+                document.getElementById('reg-username-error').textContent = 'Username must be at least 4 characters';
+                document.getElementById('reg-username-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('reg-username-error').style.display = 'none';
+            }
+            
+            // Validate email
+            const email = document.getElementById('reg-email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '') {
+                document.getElementById('reg-email-error').textContent = 'Email is required';
+                document.getElementById('reg-email-error').style.display = 'block';
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                document.getElementById('reg-email-error').textContent = 'Please enter a valid email';
+                document.getElementById('reg-email-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('reg-email-error').style.display = 'none';
+            }
+            
+            // Validate password
+            const password = document.getElementById('reg-password').value;
+            if (password === '') {
+                document.getElementById('reg-password-error').textContent = 'Password is required';
+                document.getElementById('reg-password-error').style.display = 'block';
+                isValid = false;
+            } else if (password.length < 8) {
+                document.getElementById('reg-password-error').textContent = 'Password must be at least 8 characters';
+                document.getElementById('reg-password-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('reg-password-error').style.display = 'none';
+            }
+            
+            // Validate confirm password
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            if (confirmPassword === '') {
+                document.getElementById('reg-confirm-password-error').textContent = 'Please confirm your password';
+                document.getElementById('reg-confirm-password-error').style.display = 'block';
+                isValid = false;
+            } else if (confirmPassword !== password) {
+                document.getElementById('reg-confirm-password-error').textContent = 'Passwords do not match';
+                document.getElementById('reg-confirm-password-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('reg-confirm-password-error').style.display = 'none';
+            }
+            
+            // Validate role selection
+            const role = document.querySelector('input[name="role"]:checked');
+            if (!role) {
+                document.getElementById('role-error').textContent = 'Please select a role';
+                document.getElementById('role-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('role-error').style.display = 'none';
+            }
+            
+            // Validate terms checkbox
+            const terms = document.getElementById('terms').checked;
+            if (!terms) {
+                document.getElementById('terms-error').textContent = 'You must accept the terms and conditions';
+                document.getElementById('terms-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('terms-error').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Simulate successful registration
+                console.log('Registration submitted:', { 
+                    username, 
+                    email, 
+                    password, 
+                    role: role.value 
+                });
+                
+                // Show success message
+                document.getElementById('register-success').style.display = 'block';
+                registerForm.reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('register-success').style.display = 'none';
+                    // Switch to login form
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                }, 5000);
+            }
+        });
+        
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+            menuToggle.innerHTML = navbar.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', () => {
+                navbar.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* (Previous CSS remains the same) */
+        
+        /* Add these new styles for the loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--primary-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-text {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- (Previous HTML remains the same until the script section) -->
+
+    <!-- Add loading overlay div -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Redirecting to your dashboard...</div>
+    </div>
+
+    <script>
+        // (Previous JavaScript remains the same until the login form submission)
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validate username/email
+            const username = document.getElementById('username').value.trim();
+            if (username === '') {
+                document.getElementById('username-error').textContent = 'Username or email is required';
+                document.getElementById('username-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('username-error').style.display = 'none';
+            }
+            
+            // Validate password
+            const password = document.getElementById('password').value.trim();
+            if (password === '') {
+                document.getElementById('password-error').textContent = 'Password is required';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('password-error').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Show loading overlay
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
+                
+                // Here you would typically make an AJAX call to your backend
+                // For demonstration, we'll simulate a successful login after 1.5 seconds
+                setTimeout(() => {
+                    // On successful authentication, redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                    
+                    // In a real application, you would:
+                    // 1. Send credentials to your authentication API
+                    // 2. On success, store the authentication token
+                    // 3. Redirect to the dashboard
+                    // Example:
+                    /*
+                    fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, password }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Store token in localStorage or cookies
+                            localStorage.setItem('authToken', data.token);
+                            // Redirect to dashboard
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            loadingOverlay.style.display = 'none';
+                            alert('Login failed: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        loadingOverlay.style.display = 'none';
+                        console.error('Error:', error);
+                        alert('An error occurred during login');
+                    });
+                    */
+                }, 1500);
+            }
+        });
+
+        // (Rest of the JavaScript remains the same)
+    </script>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #3f51b5;
+            --primary-light: #757de8;
+            --secondary: #ff4081;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --dark: #212121;
+            --light: #f5f5f5;
+            --gray: #757575;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-filter input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(63, 81, 181, 0.1);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            flex: 1;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        .stat-cards {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-card.patients {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .stat-card.admissions {
+            background: linear-gradient(135deg, #ff4081, #ff79b0);
+        }
+
+        .stat-card.revenue {
+            background: linear-gradient(135deg, #4caf50, #81c784);
+        }
+
+        .stat-card.occupancy {
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.positive {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stat-change.negative {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Grid Column Spans */
+        .col-span-12 { grid-column: span 12; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-6 { grid-column: span 6; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-3 { grid-column: span 3; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+
+        /* Department List */
+        .department-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .department-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .department-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .department-count {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .col-span-8, .col-span-6, .col-span-4, .col-span-3 {
+                grid-column: span 12;
+            }
+            
+            .dashboard {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .date-filter {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .stat-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> Hospital Analytics Dashboard</h1>
+            <div class="date-filter">
+                <input type="date" id="startDate" class="btn-outline">
+                <span>to</span>
+                <input type="date" id="endDate" class="btn-outline">
+                <button class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Apply
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </header>
+        
+
+        <div class="dashboard">
+            <!-- Stat Cards -->
+            <div class="stat-cards">
+                <div class="stat-card patients">
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-label">Total Patients</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 12% from last month
+                    </div>
+                </div>
+                <div class="stat-card admissions">
+                    <div class="stat-value">324</div>
+                    <div class="stat-label">New Admissions</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 8% from last month
+                    </div>
+                </div>
+                <div class="stat-card revenue">
+                    <div class="stat-value">$248K</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i> 3% from last month
+                    </div>
+                </div>
+                <div class="stat-card occupancy">
+                    <div class="stat-value">78%</div>
+                    <div class="stat-label">Bed Occupancy</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 5% from last month
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Admissions Chart -->
+            <div class="card col-span-8">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-injured"></i> Patient Admissions</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline time-filter active" data-period="weekly">Weekly</button>
+                        <button class="btn btn-outline time-filter" data-period="monthly">Monthly</button>
+                        <button class="btn btn-outline time-filter" data-period="yearly">Yearly</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="admissionsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Department Distribution -->
+            <div class="card col-span-4">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-procedures"></i> Department Distribution</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="departmentChart"></canvas>
+                </div>
+                <ul class="department-list">
+                    <li class="department-item">
+                        <div class="department-name">
+                            <i class="fas fa-heartbeat" style="color: #3f51b5;"></i>
+                            <span>Cardiology</span>
+                        </div>
+                        <div class="department-count">248</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 35%; background-color: #3f51b5;"></div>
+                        </div>
+                    </li>
+                    <li class="department-item">
+                        <div class="department-name">
+                            <i class="fas fa-lungs" style="color: #ff4081;"></i>
+                            <span>Pulmonology</span>
+                        </div>
+                        <div class="department-count">187</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 25%; background-color: #ff4081;"></div>
+                        </div>
+                    </li>
+                    <li class="department-item">
+                        <div class="department-name">
+                            <i class="fas fa-brain" style="color: #4caf50;"></i>
+                            <span>Neurology</span>
+                        </div>
+                        <div class="department-count">156</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 22%; background-color: #4caf50;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Revenue Sources -->
+            <div class="card col-span-4">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-money-bill-wave"></i> Revenue Sources</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bed Occupancy -->
+            <div class="card col-span-4">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-bed"></i> Bed Occupancy</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline view-toggle active" data-view="ward">By Ward</button>
+                        <button class="btn btn-outline view-toggle" data-view="day">By Day</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="occupancyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Patient Demographics -->
+            <div class="card col-span-4">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-users"></i> Patient Demographics</h2>
+                </div>
+                <div class="tabs">
+                    <div class="tab active" data-demographic="age">Age</div>
+                    <div class="tab" data-demographic="gender">Gender</div>
+                    <div class="tab" data-demographic="insurance">Insurance</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="demographicsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Monthly Comparison -->
+            <div class="card col-span-12">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-bar"></i> Monthly Performance Comparison</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize all charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates (last 30 days)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(endDate.getDate() - 30);
+            
+            document.getElementById('startDate').valueAsDate = startDate;
+            document.getElementById('endDate').valueAsDate = endDate;
+
+            // Chart configurations
+            const chartConfig = {
+                // Patient Admissions Chart (Line)
+                admissions: {
+                    type: 'line',
+                    data: {
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                        datasets: [
+                            {
+                                label: 'Emergency',
+                                data: [120, 135, 110, 145],
+                                borderColor: '#f44336',
+                                backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                                tension: 0.3,
+                                fill: true,
+                                borderWidth: 2
+                            },
+                            {
+                                label: 'Scheduled',
+                                data: [80, 95, 105, 115],
+                                borderColor: '#3f51b5',
+                                backgroundColor: 'rgba(63, 81, 181, 0.1)',
+                                tension: 0.3,
+                                fill: true,
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Patients'
+                                },
+                                grid: {
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                // Department Distribution Chart (Doughnut)
+                department: {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Cardiology', 'Pulmonology', 'Neurology', 'Orthopedics', 'Pediatrics', 'Others'],
+                        datasets: [{
+                            data: [248, 187, 156, 98, 120, 75],
+                            backgroundColor: [
+                                '#3f51b5',
+                                '#ff4081',
+                                '#4caf50',
+                                '#ff9800',
+                                '#9c27b0',
+                                '#607d8b'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 15
+                                }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                },
+                
+                // Revenue Sources Chart (Pie)
+                revenue: {
+                    type: 'pie',
+                    data: {
+                        labels: ['Inpatient', 'Outpatient', 'Surgeries', 'Diagnostics', 'Pharmacy'],
+                        datasets: [{
+                            data: [120000, 80000, 95000, 45000, 30000],
+                            backgroundColor: [
+                                '#3f51b5',
+                                '#ff4081',
+                                '#4caf50',
+                                '#ff9800',
+                                '#9c27b0'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.raw || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${label}: $${value.toLocaleString()} (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                // Bed Occupancy Chart (Bar)
+                occupancy: {
+                    type: 'bar',
+                    data: {
+                        labels: ['General Ward', 'ICU', 'Pediatrics', 'Maternity', 'Surgical'],
+                        datasets: [{
+                            label: 'Occupancy Rate',
+                            data: [85, 92, 78, 65, 88],
+                            backgroundColor: [
+                                'rgba(63, 81, 181, 0.7)',
+                                'rgba(244, 67, 54, 0.7)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(255, 152, 0, 0.7)',
+                                'rgba(156, 39, 176, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(63, 81, 181, 1)',
+                                'rgba(244, 67, 54, 1)',
+                                'rgba(76, 175, 80, 1)',
+                                'rgba(255, 152, 0, 1)',
+                                'rgba(156, 39, 176, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Occupancy Rate (%)'
+                                },
+                                grid: {
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.raw}% occupancy`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                // Patient Demographics Chart (Bar)
+                demographics: {
+                    type: 'bar',
+                    data: {
+                        labels: ['0-18', '19-30', '31-45', '46-60', '61-75', '75+'],
+                        datasets: [{
+                            label: 'Patients by Age',
+                            data: [120, 185, 210, 175, 130, 85],
+                            backgroundColor: 'rgba(63, 81, 181, 0.7)',
+                            borderColor: 'rgba(63, 81, 181, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Patients'
+                                },
+                                grid: {
+                                    drawBorder: false
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                },
+                
+                // Monthly Comparison Chart (Bar)
+                comparison: {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [
+                            {
+                                label: '2025',
+                                data: [180, 195, 210, 225, 240, 255],
+                                backgroundColor: 'rgba(63, 81, 181, 0.7)',
+                                borderColor: 'rgba(63, 81, 181, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: '2024',
+                                data: [150, 165, 180, 195, 210, 225],
+                                backgroundColor: 'rgba(158, 158, 158, 0.7)',
+                                borderColor: 'rgba(158, 158, 158, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Patients'
+                                },
+                                grid: {
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 20
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Monthly Patient Volume Comparison (2024 vs 2025)',
+                                padding: {
+                                    bottom: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Initialize all charts
+            const admissionsChart = new Chart(
+                document.getElementById('admissionsChart').getContext('2d'),
+                chartConfig.admissions
+            );
+
+            const departmentChart = new Chart(
+                document.getElementById('departmentChart').getContext('2d'),
+                chartConfig.department
+            );
+
+            const revenueChart = new Chart(
+                document.getElementById('revenueChart').getContext('2d'),
+                chartConfig.revenue
+            );
+
+            const occupancyChart = new Chart(
+                document.getElementById('occupancyChart').getContext('2d'),
+                chartConfig.occupancy
+            );
+
+            const demographicsChart = new Chart(
+                document.getElementById('demographicsChart').getContext('2d'),
+                chartConfig.demographics
+            );
+
+            const comparisonChart = new Chart(
+                document.getElementById('comparisonChart').getContext('2d'),
+                chartConfig.comparison
+            );
+
+            // Tab functionality for demographics chart
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update chart based on selected tab
+                    const demographic = this.dataset.demographic;
+                    
+                    if (demographic === 'gender') {
+                        demographicsChart.data.labels = ['Male', 'Female', 'Other'];
+                        demographicsChart.data.datasets[0].data = [620, 580, 25];
+                        demographicsChart.data.datasets[0].label = 'Patients by Gender';
+                    } 
+                    else if (demographic === 'insurance') {
+                        demographicsChart.data.labels = ['Private', 'Medicare', 'Medicaid', 'Self-pay', 'Other'];
+                        demographicsChart.data.datasets[0].data = [450, 350, 250, 100, 75];
+                        demographicsChart.data.datasets[0].label = 'Patients by Insurance';
+                    } 
+                    else {
+                        demographicsChart.data.labels = ['0-18', '19-30', '31-45', '46-60', '61-75', '75+'];
+                        demographicsChart.data.datasets[0].data = [120, 185, 210, 175, 130, 85];
+                        demographicsChart.data.datasets[0].label = 'Patients by Age';
+                    }
+                    
+                    demographicsChart.update();
+                });
+            });
+
+            // Time period filter for admissions chart
+            document.querySelectorAll('.time-filter').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const period = this.dataset.period;
+                    let labels, emergencyData, scheduledData;
+                    
+                    if (period === 'monthly') {
+                        labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+                        emergencyData = [120, 135, 110, 145, 160, 175];
+                        scheduledData = [80, 95, 105, 115, 120, 130];
+                    } 
+                    else if (period === 'yearly') {
+                        labels = ['2018', '2019', '2020', '2021', '2022', '2023'];
+                        emergencyData = [5200, 5400, 4800, 5100, 5600, 5800];
+                        scheduledData = [3200, 3500, 3300, 3800, 4200, 4500];
+                    } 
+                    else { // weekly
+                        labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+                        emergencyData = [120, 135, 110, 145];
+                        scheduledData = [80, 95, 105, 115];
+                    }
+                    
+                    admissionsChart.data.labels = labels;
+                    admissionsChart.data.datasets[0].data = emergencyData;
+                    admissionsChart.data.datasets[1].data = scheduledData;
+                    admissionsChart.update();
+                });
+            });
+
+            // View toggle for occupancy chart
+            document.querySelectorAll('.view-toggle').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.view-toggle').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const view = this.dataset.view;
+                    
+                    if (view === 'day') {
+                        occupancyChart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                        occupancyChart.data.datasets[0].data = [82, 85, 88, 90, 92, 78, 72];
+                        occupancyChart.options.scales.x.title.text = 'Day of Week';
+                    } 
+                    else { // ward
+                        occupancyChart.data.labels = ['General Ward', 'ICU', 'Pediatrics', 'Maternity', 'Surgical'];
+                        occupancyChart.data.datasets[0].data = [85, 92, 78, 65, 88];
+                        occupancyChart.options.scales.x.title.text = 'Ward';
+                    }
+                    
+                    occupancyChart.update();
+                });
+            });
+
+            // Apply filter button
+            document.querySelector('.btn-primary').addEventListener('click', function() {
+                // In a real application, this would fetch new data from the server
+                // based on the selected date range
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                console.log(`Fetching data for period: ${startDate} to ${endDate}`);
+                // You would typically make an API call here and update all charts
+            });
+
+            // Refresh button
+            document.querySelector('.btn-outline').addEventListener('click', function() {
+                // In a real application, this would refresh all data from the server
+                console.log('Refreshing all data...');
+                // You would typically make API calls here to refresh all chart data
+            });
+        });
+    </script>
+</body>
+</html>
